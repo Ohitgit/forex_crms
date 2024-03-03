@@ -7,8 +7,9 @@ from .froms import *
 class Home(View):
     template_name="dashboard/index.html"
     form=AddGroupForm()
-    def get(self, request,**kwargs):
+    def get(self, request):
         print(self,'self')
+        
         context={'form':self.form}
         return render(request,self.template_name,context)
     
