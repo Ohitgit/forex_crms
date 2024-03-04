@@ -23,7 +23,8 @@ urlpatterns = [
     path('whitelabel',Whitelabel.as_view(),name="whitelabel"),
     path('ouredge',OurEdge.as_view(),name="ouredge"),
     path('about-us',About.as_view(),name="about-us"),
-    path('post',Post.as_view(),name="post")
+    path('post',Post.as_view(),name="post"),
+    path('signup',Client_Registers.as_view() ,name="signup"),
 
 
 
