@@ -6,6 +6,7 @@ from .froms import *
 # Create your views here.
 class Home(View):
     template_name="dashboard/index.html"
+    
     form=AddGroupForm()
     def get(self, request):
         print(self,'self')
