@@ -15,6 +15,7 @@ class Client_Register(BaseModel):
     email=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     email_status=models.BooleanField(default=False)
     mobile_no=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    dob=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     mobile_status=models.BooleanField(default=False)
     username=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     password=models.CharField(null=True,blank=True,db_index=True,max_length=200)

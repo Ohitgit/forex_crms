@@ -1,0 +1,200 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block home %}
+
+<style>
+	.form-control{
+		font-weight: 600;
+	}
+	label{
+		font-weight: 600;
+	}
+	small{
+		font-weight: bold;
+	}
+	.select2{
+	    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #6c7293;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #6c7293;
+    appearance: none;
+    border-radius: 0px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	height: calc(3.5rem + 2px);
+    padding: 1rem 0.75rem;
+}
+	
+</style>
+  <!-- Contact Start -->
+  <div class="container-xxl py-3">
+	<div class="container">
+		<div class="row g-0">
+			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+				<div class="h-100 p-5" style="min-height:250px;">
+					<img src="{% static 'webapp/sign.png'%}" class="w-100">
+				</div>
+			</div>
+			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s" style="background-color:white">
+				<div class=" p-5">
+          <div class="text-success">{{sucess}}</div>
+					<p class="d-inline-block bg-dark text-primary py-1 px-4">User Registration</p>
+					<form  id="AddEmpModal" action="" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="row g-3">
+							<div class="col-md-6">
+								<div class="form-floating">
+									<!-- <input type="hidden" name="ref_id" value="{{request.GET.refid}}"> -->
+									<input type="text" class="form-control " value="{{first_name}}" name="first_name" placeholder="First Name" required />
+									<label for="name">First Name</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="text" class="form-control " value="{{last_name}}" name="last_name" placeholder="Last Name" required />
+									<label for="email">Last Name</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="date" class="form-control "  value="{{ birthdate_str}}"name="dob" required />
+									<label for="subject">DOB</label>
+                  <small class="text-danger">{{birth}}</small>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="text" class="form-control " value="{{username}}"  id="Username" name="username" placeholder="Username" />
+									<label for="username" class="font-weight-bold">Username</label>
+                  <small class="text-danger">{{username_error}}</small>
+                </div>
+								
+
+								<!-- <span id="user_msg"></span> -->
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="password" class="form-control " value="{{password}}" id="password" name="pwd1" placeholder="Password" />
+									<label for="password">Password</label>
+                  <small class="text-danger">{{password_error}}</small>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="password" class="form-control " value="{{confrim_password}}" id="confirm_password" name="pwd2" placeholder="Confirm Password" />
+									<label for="confirm password">Confirm Password</label>
+								</div>
+								<small id="password_danger" class="font-weight-bold text-danger"></small>
+								<small id="password_success" class="font-weight-bold text-success"></small>
+
+
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<select class="form-control select2" name="country"  required>
+                
+										{% for i in country %}
+											<option>--Please Select--</option>
+											<option value="{{i.name}} (+{{i.phonecode}})">{{i.name}} (+{{i.code}})</option>
+											
+											{%endfor%}
+										</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="text" class="form-control " placeholder="Mobile No" value="{{mobile}}" name="mobile" id="mobile" onkeyup="check_mobile_exists()"
+									required />
+									<label for="confirm password">Mobile No</label>
+								</div>
+								<span id="mob_msg"></span>
+							</div>
+							<div class="col-md-6">
+								<div class="form-floating">
+									<input type="email" class="form-control "  name="email" id="email" value="{{email}}" placeholder="Email" required />
+									<label for="confirm password">Email</label>
+								</div>
+								<small id="email_error" class="font-weight-bold text-danger"></small>
+							</div>
+							
+
+							<div class="col-md-6">
+								
+								<div class="form-floating">
+								
+									<select class="form-control" name="gender" required>
+										<option>--Please Select--</option>
+										<option>Male</option>
+										<option>Female</option>
+										<option>Other</option>
+									</select>
+									<label for="gender">Gender</label>
+								</div>
+								</div>
+
+								<!-- new field added here  -->
+
+								
+								<!-- <div class="col-md-6">
+
+									<div class="form-floating">
+
+									<input type="text" class="form-control"  id="edit_zip_code" placeholder="enter zip code" name="zipcode" required />
+									<label class="form-label" for="account-hoder-name">Zip Code</label>
+
+			
+								</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+
+							   <input type="text" class="form-control"  placeholder="enter city" name="city" id="edit_city" required />
+							   <label class="form-label">City</label>
+
+								</div>							</div>
+
+								<div class="col-md-6">
+									<div class="form-floating">
+
+									<input type="text" class="form-control"  placeholder="enter state" name="state"  id="edit_State" required />
+									<label class="form-label">State</label>
+										</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-floating">
+
+									<textarea rows="1" class="form-control" name="address" placeholder="enter address" id="edit_add_address" required></textarea>
+									<label class="form-label">Address</label>
+										</div>
+								</div> -->
+
+
+								<!-- new field ended here -->
+										
+								
+
+							<div class="col-12">
+								<div id="btn_loader">
+								<button  class="btn btn-primary w-100 py-3" type="submit">Signup</button><br>
+								
+								</div>
+								<p class="text-center mt-5" >Already have an account? <a href="" class="text-info">Signin</a></p>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<!-- Contact End -->  
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" > </script>
+{% endblock %}
+
