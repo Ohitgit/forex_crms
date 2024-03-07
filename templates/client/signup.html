@@ -42,7 +42,7 @@
 			</div>
 			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s" style="background-color:white">
 				<div class=" p-5">
-          <div class="text-success">{{sucess}}</div>
+          <div class="text-success "><h2 class="text-center">{{sucess}} </h2></div>
 					<p class="d-inline-block bg-dark text-primary py-1 px-4">User Registration</p>
 					<form  id="AddEmpModal" action="" method="POST" enctype="multipart/form-data">
 						{% csrf_token %}
@@ -108,7 +108,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-floating">
-									<input type="text" class="form-control " placeholder="Mobile No" value="{{mobile}}" name="mobile" id="mobile" onkeyup="check_mobile_exists()"
+									<input type="text" class="form-control " maxlength="10" pattern="\d{10}" placeholder="Mobile No" value="{{mobile}}" name="mobile" id="mobile" 
 									required />
 									<label for="confirm password">Mobile No</label>
 								</div>

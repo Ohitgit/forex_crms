@@ -1,10 +1,12 @@
 from django.shortcuts import render,redirect
-   
+from django.contrib import messages 
 from django.http import HttpResponse
 from django.views import View
 from .models import *
 from dashboard_app.models import *
 from datetime import date,datetime
+from  .utils import *
+import random
 # Create your views here.
 from django.contrib.auth.hashers import make_password
 class Client_Registers(View):
@@ -56,9 +58,27 @@ class Client_Registers(View):
             else:
                 instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=make_password(password),email=email)
                 Client_Register.objects.create(user=instance,first_name=first_name,last_name=last_name,email=email,mobile_no=mobile ,gender=gender, country=country,dob=birthdate_str,username=username,password=password)
-                context={'sucess':"Singup form Register Successfully..",'country':self.country}
-                return render(request,self.template_name,context)
+                otp = random.randint(100000, 999999)
+                request.session['otp']=otp
+                Util.user_email_verfication(request,instance,otp)
+                return redirect('otp')
+               
         return render(request,self.template_name,self.context)
-        
 
 
+
+class Signup_Otp(View):
+    template_name="client/signupotp.html"
+    def get(self, request):
+        return render(request,self.template_name)
+    
+    def post(self,request):
+        if request.method == 'POST':
+            otp1=request.POST.get('otp')
+            otp=request.session.get('otp')
+            if int(otp) == int(otp1):
+              messages.success(request, 'Email Verify Succesfully..')
+              return redirect('otp')
+            else:
+                 messages.success(request, ' Please valid Email..')
+                 return redirect('otp')
