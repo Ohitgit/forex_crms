@@ -1,0 +1,98 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block home %}
+
+<style>
+	.error{
+		color: red;
+		font-size: initial;
+		font-weight: bold;
+		margin-left: 15px;
+	}
+</style>
+
+{% if messages %}
+						<ul class="messages list-unstyled">
+							{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }} text-center font-weight-bold"{% endif %}>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+
+ <!-- Contact Start -->
+ <div class="container-xxl py-5">
+	<div class="container">
+		<div class="row g-0">
+			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s" >
+				<div class="h-75" style="min-height:100px;">
+					<img src="{% static 'webapp/img/fp.svg'%}" class="w-75 img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-6 wow fadeIn mt-4" data-wow-delay="0.1s" style="background-color:white;">
+				<div class=" p-5">
+                   
+					<p class="d-inline-block bg-dark text-primary py-1 px-4">Forgot Password </p>
+					<form id="AddEmpModal" method="POST" action="">
+						{% csrf_token %}
+						<p class="text-dark">We will send an OTP to validate the request to your valid registered mail id with us.</p>
+							<hr />
+							{% if error %}
+								<p class="error">{{error}}</p>
+							{% endif %}
+						<div class="row g-3">
+							<div class="col-md-12">
+								<div class="form-floating">
+									<!-- <input type="text" class="form-control" id="Email" placeholder="Email address"
+									name="email" required /> -->
+                                    {{form.email}}
+									<label for="username">Email Address</label>
+								</div>
+							</div>
+					
+							
+						
+							<div class="col-12">
+								<div id="btn_loader">
+									<button id="button_id" class="btn btn-primary w-100 py-3" type="button">Get OTP</button><br>
+							
+									</div>
+								<hr>
+						
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<!-- Contact End -->  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+<script>
+
+
+$('#button_id').on('click',function(){
+	// var val=document.getElementById("Email").value
+	// var va2=document.getElementById("Password").value
+	// if(val==''  ){
+	// document.getElementById("Email").focus();
+	
+	// }else if(va2==''){
+	// document.getElementById("Password").focus();
+	// }
+	
+	// else{
+	document.getElementById('btn_loader').innerHTML='<button class="btn btn-primary w-100 py-3" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...</button>'
+     $('#AddEmpModal').submit();
+	 
+	 
+ });
+ 
+</script>
+{% endblock %}

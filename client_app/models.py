@@ -8,6 +8,9 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
 
+
+class Otp_Status(BaseModel):
+    otp_status=models.BooleanField(default=False)
 class Client_Register(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
     first_name=models.CharField(null=True,blank=True,db_index=True,max_length=200)
@@ -18,6 +21,7 @@ class Client_Register(BaseModel):
     dob=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     mobile_status=models.BooleanField(default=False)
     username=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    uuid=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     password=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     pincode=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     city=models.CharField(null=True,blank=True,db_index=True,max_length=200)

@@ -10,6 +10,9 @@ import random
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 # Create your views here.
 
 class Client_Registers(View):
@@ -62,10 +65,15 @@ class Client_Registers(View):
             else:
                 instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=hasedpwd,email=email)
                 Client_Register.objects.create(user=instance,first_name=first_name,last_name=last_name,email=email,mobile_no=mobile ,gender=gender, country=country,dob=birthdate_str,username=username,password=password)
-                otp = random.randint(100000, 999999)
-                request.session['otp']=otp
-                Util.user_email_verfication(request,instance,otp)
-                return redirect('otp')
+                otp_staus=Otp_Status.objects.get(otp_status=False)
+                print('otp_staus',otp_staus)
+                if otp_staus:
+                   return redirect('signin')
+                else:
+                  otp = random.randint(100000, 999999)
+                  request.session['otp']=otp
+                  Util.user_email_verfication(request,instance,otp)
+                  return redirect('otp')
                
         return render(request,self.template_name,self.context)
 
@@ -109,4 +117,65 @@ class Signin(View):
                  form = LoginForm()
                  context = {'error': 'Invalid credentials','form':form} 
                  return render(request,self.template_name,context)
-             
+
+import uuid
+class Forgot(View):
+    template_name="client/forgot.html"
+    form=ForgotForm()
+    print('form',form)
+    context={'form':form}
+    def get(self, request):
+      return render(request,self.template_name,self.context)
+    
+    def post(self,request):
+        if request.method == 'POST':
+           form = ForgotForm(request.POST)
+           if form.is_valid():
+              email = form.cleaned_data['email']
+              try:
+                  user=User.objects.get(email=email)
+                  print('user',user)
+                  obj=Client_Register.objects.get(user=user)
+                  uuids=str(uuid.uuid4())
+                  obj.uuid=uuids
+                  obj.save()
+                  current_site=get_current_site(request=request).domain
+                  relativelink=reverse('changepassword',kwargs={'token':uuids})
+                  absurl='http://'+current_site + relativelink
+                  email_body='Hello, \n Use link below to reset your password  \n' + absurl
+                  data={'email_body':email_body,'to_email':obj.email,'email_subject':'Reset your email'}
+                  Util.forget_email(data)
+                  context={'error':'email has been sent your mail id','form':form}
+                  return render(request,self.template_name,context)
+              except User.DoesNotExist:
+                   form = ForgotForm(request.POST)
+                   context={'error':'Email Not Exists..','form':form}
+                   return render(request,self.template_name,context)
+        return render(request,self.template_name,self.context)
+
+class ChangePassword(View):
+    template_name="client/changepassword.html"
+    form=ChangePasswordForm()
+    print('form',form)
+    context={'form':form}
+    def get(self, request,token):
+      return render(request,self.template_name,self.context)
+    def post(self ,request,token):
+        if request.method == 'POST':
+           form = ChangePasswordForm(request.POST)
+           if form.is_valid():
+              password = form.cleaned_data['password']
+              confrimpassword = form.cleaned_data['confrimpassword']
+              if password != confrimpassword:
+                  messages.success(request, 'password not match')
+                  current_url=request.get_full_path()
+                  return redirect(current_url)
+              else:
+                 obj=Client_Register.objects.get(uuid=token)
+                 print('update',obj)
+                 user1=User.objects.get(id=obj.user.id)
+                 print('user',user1)
+                 user1.set_password(confrimpassword)
+                 user1.save()
+                 return redirect('signin')
+        return render(request,self.template_name,self.context)

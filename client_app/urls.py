@@ -7,4 +7,6 @@ urlpatterns = [
     path('client',Client_Registers.as_view() ,name="signup"),
     path('signin',Signin.as_view() ,name="signin"),
     path('otp',Signup_Otp.as_view() ,name="otp"),
+    path('forgot',Forgot.as_view() ,name="forgot"),
+    path('changepassword/<str:token>',ChangePassword.as_view(), name='changepassword'),
 ]
