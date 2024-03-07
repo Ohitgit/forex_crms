@@ -8,9 +8,10 @@ from datetime import date,datetime
 from  .utils import *
 import random
 from .forms import *
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
 # Create your views here.
-from django.contrib.auth.hashers import make_password
+
 class Client_Registers(View):
     template_name="client/signup.html"
     country=Country.objects.all()
@@ -25,6 +26,7 @@ class Client_Registers(View):
             birthdate_str=request.POST.get('dob')
             username=request.POST.get('username')
             password=request.POST.get('pwd1')
+            hasedpwd=make_password(password)
             confrim_password=request.POST.get('pwd2')
             country=request.POST.get('country')
             mobile=request.POST.get('mobile')
@@ -58,7 +60,7 @@ class Client_Registers(View):
                 context={'password':password,'confrim_password':confrim_password,'country':self.country,'password_error':'password does not match...','first_name':first_name,'last_name':last_name,'username':username}
                 return render(request,self.template_name,context)
             else:
-                instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=make_password(password),email=email)
+                instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=hasedpwd,email=email)
                 Client_Register.objects.create(user=instance,first_name=first_name,last_name=last_name,email=email,mobile_no=mobile ,gender=gender, country=country,dob=birthdate_str,username=username,password=password)
                 otp = random.randint(100000, 999999)
                 request.session['otp']=otp
@@ -101,6 +103,7 @@ class Signin(View):
               password = form.cleaned_data['password']
               user = authenticate(request, username=username, password=password)
               if user is not None:
+                login(request,user)
                 return redirect('home')
               else:
                  form = LoginForm()
