@@ -1,0 +1,118 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block home %}
+
+<style>
+	.error{
+		color: red;
+		font-size: initial;
+		font-weight: bold;
+		margin-left: 15px;
+	}
+
+	.form-control{
+		font-weight: 600;
+	}
+	label{
+		font-weight: 600;
+	}
+	.sd{
+		width: 75%;
+	}
+	@media only screen and (max-width: 500px) {
+  .sd {
+    width:100%;
+  }
+}
+
+</style>
+
+
+
+
+ <!-- Contact Start -->
+ <div class="container-xxl py-5">
+	<div class="container">
+		<div class="row g-0">
+			<div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+				<div class="h-75" style="min-height:100px;">
+					<img src="{% static 'webapp/lg.png'%}" class="sd">
+				</div>
+			</div>
+			<div class="col-lg-6 wow fadeIn mt-3" data-wow-delay="0.1s" style="background-color:white;">
+				<div class=" p-5">
+					<p class="d-inline-block bg-dark text-primary py-1 px-4">User Login</p>
+					<form  id="AddEmpModal" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						{% if error %}
+						<p class="error">{{error}}</p>
+					{% endif %}
+					{% if messages %}
+						<ul class="messages list-unstyled">
+							{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }} text-center font-weight-bold"{% endif %}>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+						<div class="row g-3">
+							<div class="col-md-12">
+								<div class="form-floating">
+									
+									  {{form.username}}
+                                    <label for="username">Username</label>
+								</div>
+							</div>
+					
+							<div class="col-md-12">
+								<div class="form-floating">
+                                    {{form.password}}
+									<label for="password">Password</label>
+								</div>
+							</div>
+					
+						
+							<div class="col-12">
+							<div id="btn_loader">
+								<button  class="btn btn-primary w-100 py-3" type="submitś">SignIn</button><br>
+						
+								</div>
+								<hr>
+								<br>
+							<a href="" class="f-w-400 text-info">Forgot Password?</a>
+							<a href="{%url 'signup'%}" class="f-w-400 text-info float-right" style="float:right">Client Register</a>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</div>
+<!-- Contact End -->  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.2.0/sweetalert2.all.min.js"></script>
+<script>
+
+
+$('#button_id').on('click',function(){
+	var val=document.getElementById("Email").value
+	var va2=document.getElementById("Password").value
+	if(val==''  ){
+	document.getElementById("Email").focus();
+	
+	}else if(va2==''){
+	document.getElementById("Password").focus();
+	}
+	
+	else{
+	document.getElementById('btn_loader').innerHTML='<button class="btn btn-primary w-100 py-3" type="button" disabled><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Loading...</button>'
+     $('#AddEmpModal').submit();
+	 }
+	 
+ });
+ 
+</script>
+{% endblock %}

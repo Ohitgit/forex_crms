@@ -7,6 +7,8 @@ from dashboard_app.models import *
 from datetime import date,datetime
 from  .utils import *
 import random
+from .forms import *
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 from django.contrib.auth.hashers import make_password
 class Client_Registers(View):
@@ -78,7 +80,30 @@ class Signup_Otp(View):
             otp=request.session.get('otp')
             if int(otp) == int(otp1):
               messages.success(request, 'Email Verify Succesfully..')
-              return redirect('otp')
+              return redirect('signin')
             else:
                  messages.success(request, ' Please valid Email..')
                  return redirect('otp')
+             
+
+class Signin(View):
+    template_name="client/signin.html"
+    form = LoginForm()
+    context={'form':form}
+    def get(self, request):
+      return render(request,self.template_name,self.context)
+    
+    def post(self,request):
+        if request.method == 'POST':
+           form = LoginForm(request.POST)
+           if form.is_valid():
+              username = form.cleaned_data['username']
+              password = form.cleaned_data['password']
+              user = authenticate(request, username=username, password=password)
+              if user is not None:
+                return redirect('home')
+              else:
+                 form = LoginForm()
+                 context = {'error': 'Invalid credentials','form':form} 
+                 return render(request,self.template_name,context)
+             
