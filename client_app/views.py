@@ -95,7 +95,33 @@ class Signup_Otp(View):
                  messages.success(request, ' Please valid Email..')
                  return redirect('otp')
              
-
+class Forgot_Otp(View):
+    template_name="client/signupotp.html"
+    def get(self, request):
+        return render(request,self.template_name)
+    
+    def post(self,request):
+        if request.method == 'POST':
+            otp1=request.POST.get('otp')
+            otp=request.session.get('otp')
+            if int(otp) == int(otp1):
+                  username=request.session.get('user')
+                  obj=Client_Register.objects.get(user=username)
+                  uuids=str(uuid.uuid4())
+                  obj.uuid=uuids
+                  obj.save()
+                  current_site=get_current_site(request=request).domain
+                  relativelink=reverse('changepassword',kwargs={'token':uuids})
+                  absurl='http://'+current_site + relativelink
+                  email_body='Hello, \n Use link below to reset your password  \n' + absurl
+                  data={'email_body':email_body,'to_email':obj.email,'email_subject':'Reset your email'}
+                  Util.forget_email(data)
+                  messages.success(request, 'Email Verify Succesfully..')
+                  return redirect('signin')
+            else:
+                 messages.success(request, ' Please valid Email..')
+                 return redirect('otp')
+             
 class Signin(View):
     template_name="client/signin.html"
     form = LoginForm()
@@ -135,18 +161,11 @@ class Forgot(View):
               try:
                   user=User.objects.get(email=email)
                   print('user',user)
-                  obj=Client_Register.objects.get(user=user)
-                  uuids=str(uuid.uuid4())
-                  obj.uuid=uuids
-                  obj.save()
-                  current_site=get_current_site(request=request).domain
-                  relativelink=reverse('changepassword',kwargs={'token':uuids})
-                  absurl='http://'+current_site + relativelink
-                  email_body='Hello, \n Use link below to reset your password  \n' + absurl
-                  data={'email_body':email_body,'to_email':obj.email,'email_subject':'Reset your email'}
-                  Util.forget_email(data)
-                  context={'error':'email has been sent your mail id','form':form}
-                  return render(request,self.template_name,context)
+                  request.session['user']=user.id
+                  otp = random.randint(100000, 999999)
+                  request.session['otp']=otp
+                  Util.user_email_verfication(request,user,otp)
+                  return redirect('forgototp')
               except User.DoesNotExist:
                    form = ForgotForm(request.POST)
                    context={'error':'Email Not Exists..','form':form}
