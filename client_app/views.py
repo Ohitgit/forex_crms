@@ -7,6 +7,7 @@ from dashboard_app.models import *
 from datetime import date,datetime
 from  .utils import *
 import random
+import json
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
@@ -198,3 +199,38 @@ class ChangePassword(View):
                  user1.save()
                  return redirect('signin')
         return render(request,self.template_name,self.context)
+
+
+import requests
+
+class LiveAccount(View):
+    template_name="client/liveaccount.html"
+    
+    def get(self, request):
+      return render(request,self.template_name)
+    
+    def post(self,request):
+      if request.method =="POST":
+          forexgroup=request.POST.get('forex_group')
+          leverage=request.POST.get('leverage')
+          url = "http://103.138.189.81/api/mt5/createLiveAccount"
+          data={
+              "ip": "43.228.124.119",
+                "login": 313,
+                "password": "Raz@1234",
+                "name": "Test Account 1",
+                "group": forexgroup,
+                 "email": "test@test.com",
+                 "leverage": 150,
+                 "main_password": "trade@1234",
+                 "invest_password": "1234@trade",
+                "phone_password": "phone@1234",
+                 "country": "India",
+            
+              }
+          print('data',data)
+          response_api = requests.post(url, json=data)
+          json1= response_api.json()
+          print('json1',json1.get('ip'))
+          
+      return render(request,self.template_name)

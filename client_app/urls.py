@@ -10,4 +10,8 @@ urlpatterns = [
     path('forgototp',Forgot_Otp.as_view() ,name="forgototp"),
     path('forgot',Forgot.as_view() ,name="forgot"),
     path('changepassword/<str:token>',ChangePassword.as_view(), name='changepassword'),
+    
+
+    path('liveaccount',LiveAccount.as_view() ,name="liveaccount"),
+
 ]

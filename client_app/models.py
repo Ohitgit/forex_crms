@@ -35,3 +35,18 @@ class Client_Register(BaseModel):
     def __str__(self):
         return self.username
 
+class LiveAccount(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
+    ip=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    login=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    email=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    group=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    leverage=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    main_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    invest_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    phone_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    country=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+   
+
+
