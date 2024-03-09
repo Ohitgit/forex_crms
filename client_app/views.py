@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages 
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.views import View
 from .models import *
 from dashboard_app.models import *
@@ -200,37 +200,48 @@ class ChangePassword(View):
                  return redirect('signin')
         return render(request,self.template_name,self.context)
 
-
+from django.contrib.auth.decorators import login_required
 import requests
 
 class LiveAccount(View):
     template_name="client/liveaccount.html"
     
     def get(self, request):
+      user=Client_Register.objects.get(user=request.user)
+      print('user',user)
       return render(request,self.template_name)
     
     def post(self,request):
       if request.method =="POST":
           forexgroup=request.POST.get('forex_group')
           leverage=request.POST.get('leverage')
+          user=Client_Register.objects.get(user=request.user)
+          print('user',user)
           url = "http://103.138.189.81/api/mt5/createLiveAccount"
+          headers = {'Content-Type': 'application/json'}
           data={
               "ip": "43.228.124.119",
                 "login": 313,
                 "password": "Raz@1234",
-                "name": "Test Account 1",
+                "name": user.first_name,
                 "group": forexgroup,
-                 "email": "test@test.com",
-                 "leverage": 150,
+                 "email": user.email,
+                 "leverage":  leverage,
                  "main_password": "trade@1234",
                  "invest_password": "1234@trade",
-                "phone_password": "phone@1234",
+                "phone_password": user.mobile_no,
                  "country": "India",
             
               }
           print('data',data)
-          response_api = requests.post(url, json=data)
+          print('url',url)
+          response_api = requests.post(url, headers=headers,json=data)
           json1= response_api.json()
-          print('json1',json1.get('ip'))
+          print('json1',json1)
+          if response_api.status_code == 200:
+            # LiveAccount.objects.create(ac_type=response_data.get('accountType'), cu_type=response_data.get('depositCurrency'),account_no=response_data.get('login'),user=request.user)
+            return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
+          else:
+            return JsonResponse({'error': 'Failed to create LiveAccount'}, status=response_api.status_code)
           
       return render(request,self.template_name)
