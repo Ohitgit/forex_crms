@@ -15,6 +15,152 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 # Create your views here.
 
+
+def home(request):
+    return render(request,'clientapp/home.html')
+
+
+class Client_register(View):
+    country=Country.objects.all()
+    context={'country':country}
+    template_name="clientapp/client_register.html"
+    def get(self, request):
+        print(self.country)
+        return render(request,self.template_name,self.context)
+    
+    def post(self ,request):
+        if request.method =="POST":
+            first_name=request.POST.get('first_name')
+            last_name=request.POST.get('last_name')
+            # birthdate_str=request.POST.get('dob')
+            username=request.POST.get('username')
+            password=request.POST.get('pwd1')
+            print('password',password)
+            hasedpwd=make_password(password)
+            confrim_password=request.POST.get('pwd2')
+            country=request.POST.get('country')
+            mobile=request.POST.get('mobile')
+            email=request.POST.get('email')
+            city=request.POST.get('city')
+            zipcode=request.POST.get('zipcode')
+            address=request.POST.get('address')
+            state=request.POST.get('state')
+        
+            # birthdate = datetime.strptime(birthdate_str, '%Y-%m-%d').date()
+            # age = (date.today() - birthdate).days // 365
+            # if age < 18:
+            #   context={' birthdate_str': birthdate_str,'mobile':mobile,'email':email,'password':password,'confrim_password':confrim_password,'country':self.country,'birth':'You must be at least 18 years old.','first_name':first_name,'last_name':last_name}
+            #   return render(request,self.template_name,context)
+            
+            try:
+                User.objects.get(username=username)
+                context={'confrim_password': confrim_password,'password':password,'zipcode':zipcode,'address':address,'state':state,'city':city,'mobile':mobile,'email':email,'password':password,'confrim_password':confrim_password,'country':self.country,'username_error':'User Already Exists...','first_name':first_name,'last_name':last_name,'username':username}
+                return render(request,self.template_name,context)
+            
+            except User.DoesNotExist:
+                  username=request.POST.get('username')
+           
+           
+            try:
+                User.objects.get(email=email)
+                context={'zipcode':zipcode,'address':address,'state':state,'city':city,'mobile':mobile,'email':email,'password':password,'confrim_password':confrim_password,'country':self.country,'email_error':'Email Already Exists...','first_name':first_name,'last_name':last_name,'username':username}
+                return render(request,self.template_name,context)
+            
+            except User.DoesNotExist:
+                  username=request.POST.get('username')
+            #insert data
+            if password!=confrim_password:
+                context={'password':password,'confrim_password':confrim_password,'country':self.country,'password_error':'password does not match...','first_name':first_name,'last_name':last_name,'username':username}
+                return render(request,self.template_name,context)
+            else:
+                instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=hasedpwd,email=email)
+                Client_Register.objects.create(user=instance,first_name=first_name,last_name=last_name,email=email,mobile_no=mobile ,city=city,pincode=zipcode, country=country,username=username,password=password ,address=address,state=state)
+               
+                if Otp_Status.objects.filter(otp_status=False).exists():
+                   return redirect('client_login')
+                else:
+                  otp = random.randint(100000, 999999)
+                  request.session['otp']=otp
+                  Util.user_email_verfication(request,instance,otp)
+                  return redirect('otp')
+               
+        return render(request,self.template_name,self.context)
+    
+class Client_login(View):
+    form = LoginForm()
+    context={'form':form}
+    template_name="clientapp/client_login.html"
+    def get(self, request):
+        return render(request,self.template_name,self.context) 
+    def post(self,request):
+        if request.method == 'POST':
+           form = LoginForm(request.POST)
+           if form.is_valid():
+              username = form.cleaned_data['username']
+              password = form.cleaned_data['password']
+              user = authenticate(request, username=username, password=password)
+              if user is not None:
+                login(request,user)
+                return redirect('home')
+              else:
+                 form = LoginForm()
+                 context = {'error': 'Invalid credentials','form':form} 
+                 return render(request,self.template_name,context)   
+
+
+class forgot_password(View):
+    form=ForgotForm()
+    print('form',form)
+    context={'form':form}
+    template_name="clientapp/forgot_password.html"
+    def get(self, request):
+        return render(request,self.template_name,self.context) 
+    
+    def post(self,request):
+        if request.method == 'POST':
+           form = ForgotForm(request.POST)
+           if form.is_valid():
+              email = form.cleaned_data['email']
+              try:
+                  user=User.objects.get(email=email)
+                  print('user',user)
+                  request.session['user']=user.id
+                  otp = random.randint(100000, 999999)
+                  request.session['otp']=otp
+                  Util.user_email_verfication(request,user,otp)
+                  
+              except User.DoesNotExist:
+                   form = ForgotForm(request.POST)
+                   context={'error':'Email Not Exists..','form':form}
+                   return render(request,self.template_name,context)
+        return render(request,self.template_name,self.context)
+    
+
+class auth_reset_password(View):
+    template_name="clientapp/auth_reset_password.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+
+
+
+class Client_profile(View):
+    template_name="clientapp/client_profile.html"
+    def get(self, request):
+        return render(request,self.template_name)
+
+
+class Open_live_account(View):
+    template_name="clientapp/open_live_account.html"
+    def get(self, request):
+        return render(request,self.template_name)
+
+class Open_demo_account(View):
+    template_name="clientapp/open_demo_account.html"
+    def get(self, request):
+        return render(request,self.template_name)    
+
+
+
 class Client_Registers(View):
     template_name="client/signup.html"
     country=Country.objects.all()
@@ -198,3 +344,5 @@ class ChangePassword(View):
                  user1.save()
                  return redirect('signin')
         return render(request,self.template_name,self.context)
+    
+

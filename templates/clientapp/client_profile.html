@@ -1,0 +1,510 @@
+{% extends 'clientapp/index.html' %}
+{% load static %}
+{% block home %}
+<style>
+  .fr{
+    float: right;
+  }
+  small {
+    font-size: smaller;
+}
+</style>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<!-- Blank Start -->
+<div class="container-fluid pt-4 px-4  mb-5">
+  <div class="row  bg-secondary rounded align-items-center justify-content-center mx-0 p-3">
+
+    <div class="mb-3">
+      <h4 class="text-capitalize">
+        <small><i class="fa-solid fa-circle-user"></i>&nbsp; sanuk</small>
+      </h4>
+      <p>
+        <small class="text-primary">Reg.Date:Jun 13,2020</small><br>
+
+        <small><span><i class="fa-solid fa-envelope"></i></span>&nbsp;sandeepyadavjnp01@gmail.com</small><br>
+        <small><i class="fa-solid fa-phone mr-2"></i>&nbsp;+91 8356016968</small><br>
+        <small><i class="fa-solid fa-earth-americas"></i>&nbsp; India</small><br>
+
+
+      </p>
+
+    </div>
+
+
+
+    <div class="col-sm-12 col-xl-12">
+      <div class="bg-secondary rounded h-100 p-4">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+              type="button" role="tab" aria-controls="pills-home" aria-selected="true">Profile</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="account-verification-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+              type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Account Verification</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="document-verification-tab" data-bs-toggle="pill"
+              data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact"
+              aria-selected="false">Document Verification</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="change-password-tab" data-bs-toggle="pill" data-bs-target="#pills-password"
+              type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Change Password</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="account-security-tab" data-bs-toggle="pill" data-bs-target="#pills-security"
+              type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Account Security</button>
+          </li>
+        </ul>
+        <hr>
+        <div class="tab-content" id="pills-tabContent">
+          <!-- profile tab section start here -->
+          <div class="tab-pane mb-5 fade active show" id="pills-home" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="row">
+              <div class="col-sm-12 col-lg-6 col-xl-6">
+                <div class="rounded  p-4">
+                  <p>
+                  <h6 class="mb-4 text-center">Update Your Personal Information</h6>
+
+                  </p>
+                  <form>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label">First Name</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="first_name" name="first_name">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="last_name" class="col-sm-4 col-form-label">Last Name</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="last_name" name="last_name">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="inputPassword3" class="col-sm-4 col-form-label">Date Of Birth</label>
+                      <div class="col-sm-8">
+                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth">
+                      </div>
+                    </div>
+                    <fieldset class="row mb-3">
+                      <legend class="col-form-label col-sm-4 pt-0">Gender</legend>
+                      <div class="col-sm-8">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="male" id="male" value="male" checked="">
+                          <label class="form-check-label" for="gridRadios1">
+                            Male
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="female" id="femail" value="female">
+                          <label class="form-check-label" for="gridRadios2">
+                            Female
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="other" id="other" value="other">
+                          <label class="form-check-label" for="gridRadios2">
+                            Other
+                          </label>
+                        </div>
+                      </div>
+                    </fieldset>
+                    <hr>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <button type="submit" class="btn btn-primary w-100 btn-block">Submit</button>
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- address are start here  -->
+
+              <div class="col-sm-12 col-lg-6 col-xl-6">
+                <div class="rounded p-4">
+                  <p>
+                  <h6 class="mb-4  text-center">Residential Information
+                  </h6>
+                  </p>
+                  <form>
+                    <div class="row mb-3">
+                      <label for="zipcode" class="col-sm-4 col-form-label">Zipcode</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="zipcode" name="zipcode">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="city" class="col-sm-4 col-form-label">City</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="city" name="city">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="state" class="col-sm-4 col-form-label">State</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="state" name="state">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="country" class="col-sm-4 col-form-label">Country</label>
+                      <div class="col-sm-8">
+                        <input type="text" class="form-control" id="country" name="country">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label for="address" class="col-sm-4 col-form-label">Address</label>
+                      <div class="col-sm-8">
+                        <textarea class="form-control" id="address" rows="2" name="address" id="address"></textarea>
+                      </div>
+                    </div>
+
+                    <hr>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <button type="submit" class="btn btn-primary w-100 btn-block">Submit</button>
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- address area end here -->
+
+            </div>
+          </div>
+          <!-- profile tab section end here -->
+
+          <!-- Account Verification Start Here -->
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="account-verification-tab">
+            <div class="row">
+
+              <!-- email verification start here -->
+
+              <div class="col-sm-12 col-lg-6 col-xl-6">
+                <div class="rounded  p-4">
+                  <p>
+                  <h6 class="mb-4 text-center">Email address verification
+                  </h6>
+
+                  </p>
+                  <form>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Email Address</label>
+                      <div class="col-sm-8">
+                        <input type="email" class="form-control" id="first_name" name="first_name" value="">
+                        <small class="text-success fr">Email Verified</small>&nbsp;
+                        <small class="text-warning fr">Email Unverified</small>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- email verification end here -->
+
+              <!-- Mobile verification start here -->
+
+              <div class="col-sm-12 col-lg-6 col-xl-6">
+                <div class="rounded  p-4">
+                  <p>
+                  <h6 class="mb-4 text-center">Mobile Number Verification
+                  </h6>
+
+                  </p>
+                  <form>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Mobile Number</label>
+                      <div class="col-sm-8">
+                        <input type="email" class="form-control" id="first_name" name="first_name" value="">
+                        <small class="text-warning fr">SMS Verification Pending</small>&nbsp;
+                      <a href=""> <small class="fr text-success"> Verify Now</small></a> 
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+                            <!-- Mobile verification end here -->
+
+
+            </div>
+          </div>
+          <!-- Account Verification END Here -->
+
+
+          <!-- document verification start here -->
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="document-verification-tab">
+              <!-- ID Proof verification start here -->
+              <div class="row">
+              <div class="col-sm-12 col-lg-6 col-xl-6">
+                <div class="rounded  p-4">
+                  <p>
+                  <h6 class="mb-4 text-center">ID Proof Verification
+                  </h6>
+
+                  </p>
+                  <form>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Document Type</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="document_type" id="document_type">
+                          <option>Passport</option>
+                          <option>Driving Licence</option>
+                          <option>Adhar Card</option>
+                          <option>Other</option>
+                      </select>
+                     
+                      </div>
+
+
+                    </div>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Upload Documents</label>
+                      <div class="col-sm-8">
+                      <input type="file" class="form-control" name="upload_documents" id="upload_documents">
+                    
+                    </div>
+
+
+                    </div>
+
+                    <small class="text-danger">
+                      note: In compliance with the requirements of regulation upload a color copy of the document (passport, driving license or local identification card) with:
+                  </small><br>
+                  <small class="text-info">1. only allowed : .jpeg .png .pdf                  </small><br>
+                  <small class="text-info">2. max size 25MB</small><br>
+                  <small class="text-info">3. Full-size color copy showing the document in full. Copies which show your documents with the edges cut off will not be accepted.</small>
+                  <small class="text-info">4. Dated within the last 3 months</small><br>
+                    <hr>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <button type="submit" class="btn btn-primary fr">Submit</button>
+
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+
+              <!-- ID Proof Verification end here -->
+
+               <!-- Address Proof verification start here -->
+
+               <div class="col-sm-12 col-lg-6 col-xl-6">
+                <div class="rounded  p-4">
+                  <p>
+                  <h6 class="mb-4 text-center">Address Proof Verification
+                  
+                  </h6>
+
+                  </p>
+                  <form>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Document Type</label>
+                      <div class="col-sm-8">
+                        <select class="form-control" name="document_type" id="document_type">
+                          <option>Bank Statement</option>
+                          <option>Utility Bill</option>
+                          <option>Adhar Card</option>
+                          <option>Other</option>
+                      </select>
+                     
+                      </div>
+
+
+                    </div>
+                    <div class="row mb-3">
+                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Upload Documents</label>
+                      <div class="col-sm-8">
+                      <input type="file" class="form-control" name="upload_address_documents" id="upload_address_documents">
+                    
+                    </div>
+
+
+                    </div>
+
+                    <small class="text-danger">
+                      note: In compliance with the requirements of regulation upload a color copy of the document (utility bill, bank or credit card statement, tax invoice or certificate from local authorities with the name and address of organization that is internationally recognized) with:                  </small><br>
+                  <small class="text-info">1. only allowed : .jpeg .png .pdf                  </small><br>
+                  <small class="text-info">2. max size 25MB</small><br>
+                  <small class="text-info">3. Full-size color copy showing the document in full. Copies which show your documents with the edges cut off will not be accepted.</small>
+                  <small class="text-info">4. Dated within the last 3 months</small><br>
+                    <hr>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                        <button type="submit" class="btn btn-primary fr">Submit</button>
+
+                      </div>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+
+              <!-- Address Proof Verification end here -->
+          </div>
+
+          <!-- Uploaded document start here list   -->
+<hr>
+          <div class="col-12">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Uploaded document list  
+                </h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th scope="col">ID</th>
+                                <th scope="col">Uploaded Date</th>
+                                <th scope="col">Document Type Name</th>
+                                <th scope="col">Documents File</th>
+                                <th scope="col">Verified Date</th>
+                                <th scope="col">Status</th>
+
+                              
+
+
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <th scope="row">xxxxxx</th>
+                                <td>xxxxxx</td>
+                                <td>xxxxxx</td>
+                                <td>xxxxxx</td>
+                                <td>xxxxxx</td>
+                                <td>xxxxxx</td>
+                            </tr>
+                       
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+          <!-- Uploaded document end here list   -->
+
+        </div>
+          <!-- document verification end here -->
+
+
+          <!-- change password start here -->
+
+          <div class="tab-pane fade" id="pills-password" role="tabpanel" aria-labelledby="change-password-tab">
+           
+            <div class="col-sm-12 col-lg-6 col-xl-6">
+              <div class="rounded  p-4">
+                <p>
+                <h6 class="mb-4 text-center">Update Password
+                </h6>
+
+                </p>
+                <form>
+                  <div class="row mb-3">
+                    <label for="first_name" class="col-sm-4 col-form-label text-capitalize">New Password</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" name="new_password" id="new_password">
+                    
+                    </div>
+                    <div class="col-sm-1">
+                      <i class="fa-solid fa-eye"></i> 
+                      <i class="fa-solid fa-eye-slash"></i>    
+                                   </div>
+                   </div>
+                  <div class="row mb-3">
+                    <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Confirm Password</label>
+                    <div class="col-sm-8">
+                    <input type="text" class="form-control" name="confirm_password" id="confirm_password">
+                  
+                  </div>
+               </div>
+               <div class="row mb-3">
+                <div class="col-lg-12 col-md-12">
+                  <input type="submit" class="btn btn-primary w-100 btn-block" value="Change Password">
+                </div>
+               </div>
+              </form>
+              </div>
+            </div>
+
+          </div>
+           <!-- change password end  here -->
+
+            <!-- Account security start here -->
+          <div class="tab-pane fade" id="pills-security" role="tabpanel" aria-labelledby="account-security-tab">
+          
+            <div class="col-sm-12 col-lg-6 col-xl-6">
+              <div class="rounded  p-4">
+                <p>
+                <h6 class="mb-4 text-center">2-Factor authentication
+
+                </h6>
+
+                </p>
+                <form>
+                  <div class="row mb-3">
+                    <div class="col-sm-7">
+                      <label class="checkbox-inline">
+                        <input type="checkbox" checked data-toggle="toggle"> Authentication by Email
+
+                      </label>
+                    </div>
+                 
+                   </div>
+                  
+              </form>
+              </div>
+            </div>
+
+            <hr>
+            <div class="col-12">
+              <div class="bg-secondary rounded h-100 p-4">
+                  <h6 class="mb-4">Account Logs  
+                  </h6>
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead>
+                              <tr class="text-center">
+                                  <th scope="col">Index</th>
+                                  <th scope="col">IP Address</th>
+                                  <th scope="col">Date</th>
+                                  <th scope="col">Message</th>
+                                  
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr class="text-center">
+                                  <th scope="row">xxxxxx</th>
+                                  <td>xxxxxx</td>
+                                  <td>xxxxxx</td>
+                                  <td>xxxxxx</td>
+                              
+                              </tr>
+                         
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+
+          </div>
+          <!-- account security end here -->
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+<!-- Blank End -->
+
+
+{% endblock %}

@@ -29,7 +29,7 @@ class Client_Register(BaseModel):
     country=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     live_account_limit=models.IntegerField(null=True,blank=True,db_index=True)
     demo_account_limit=models.IntegerField(null=True,blank=True,db_index=True)
-    gender=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    address=models.CharField(null=True,blank=True,db_index=True,max_length=200)
 
 
     def __str__(self):
