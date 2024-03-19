@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages 
-from django.http import HttpResponse
+from django.http import HttpResponse ,JsonResponse
 from django.views import View
 from .models import *
 from dashboard_app.models import *
@@ -109,18 +109,16 @@ class Client_login(View):
 
 
 class forgot_password(View):
-    form=ForgotForm()
-    print('form',form)
-    context={'form':form}
+    
     template_name="clientapp/forgot_password.html"
     def get(self, request):
-        return render(request,self.template_name,self.context) 
+        return render(request,self.template_name) 
     
     def post(self,request):
         if request.method == 'POST':
-           form = ForgotForm(request.POST)
-           if form.is_valid():
-              email = form.cleaned_data['email']
+           
+              email = request.POST.get('email')
+             
               try:
                   user=User.objects.get(email=email)
                   print('user',user)
@@ -128,12 +126,11 @@ class forgot_password(View):
                   otp = random.randint(100000, 999999)
                   request.session['otp']=otp
                   Util.user_email_verfication(request,user,otp)
+                  return JsonResponse({'msg1':'successfully data'})
                   
               except User.DoesNotExist:
-                   form = ForgotForm(request.POST)
-                   context={'error':'Email Not Exists..','form':form}
-                   return render(request,self.template_name,context)
-        return render(request,self.template_name,self.context)
+                   return JsonResponse({'msg':'Email Not Exists..'})
+       
     
 
 class auth_reset_password(View):
@@ -242,14 +239,14 @@ class Signup_Otp(View):
                  return redirect('otp')
              
 class Forgot_Otp(View):
-    template_name="client/signupotp.html"
-    def get(self, request):
-        return render(request,self.template_name)
+    
     
     def post(self,request):
         if request.method == 'POST':
             otp1=request.POST.get('otp')
             otp=request.session.get('otp')
+            print(otp)
+            print('otp1',otp1)
             if int(otp) == int(otp1):
                   username=request.session.get('user')
                   obj=Client_Register.objects.get(user=username)
@@ -262,11 +259,9 @@ class Forgot_Otp(View):
                   email_body='Hello, \n Use link below to reset your password  \n' + absurl
                   data={'email_body':email_body,'to_email':obj.email,'email_subject':'Reset your email'}
                   Util.forget_email(data)
-                  messages.success(request, 'Email Verify Succesfully..')
-                  return redirect('signin')
+                  return JsonResponse({'msg1':'successfully data'})
             else:
-                 messages.success(request, ' Please valid Email..')
-                 return redirect('otp')
+                 return JsonResponse({'msg':'successfully data'})
              
 class Signin(View):
     template_name="client/signin.html"
@@ -319,7 +314,7 @@ class Forgot(View):
         return render(request,self.template_name,self.context)
 
 class ChangePassword(View):
-    template_name="client/changepassword.html"
+    template_name="clientapp/auth_reset_password.html" 
     form=ChangePasswordForm()
     print('form',form)
     context={'form':form}
@@ -342,7 +337,7 @@ class ChangePassword(View):
                  print('user',user1)
                  user1.set_password(confrimpassword)
                  user1.save()
-                 return redirect('signin')
+                 return redirect('client_login')
         return render(request,self.template_name,self.context)
     
 
