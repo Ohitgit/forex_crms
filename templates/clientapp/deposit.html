@@ -1,0 +1,82 @@
+{% extends 'clientapp/index.html' %}
+{% load static %}
+{% block home %}
+<style>
+    .w-10{
+        width: 10%;
+    }
+</style>
+<div class="container-fluid pt-4 px-4">
+    <h6>Deposit Methods
+        <hr>
+    </h6>
+<div class="row">
+   
+
+    <div class="col-lg-6 col-md-6">
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
+            <h6>Crypto Wallet Deposit <hr></h6>
+       
+            <div class="col-12 mb-3">
+                <select class="form-control" name="trade_account_number">
+                    <option>Deposit In</option>
+                    <option>Wallet</option>
+                        <option>xxxx &nbsp;(0.00 &nbsp;USD)</option>
+                </select>
+            </div>
+
+            <div class="col-12 mb-3">
+                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+
+            </div>
+            <div class="col-12 mb-3">
+                <select class="form-control" name="deposit_type">
+                    <option>Bank Deposit</option>
+                        <option>USDT Deposit</option>
+
+                </select>
+            </div>
+            <div class="col-12 mb-3">
+                <input type="file" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+                <small class="text-info">  supported file type: .jpeg, .png</small>
+            </div>
+
+            <div class="mb-3">
+                <textarea placeholder="Comments"  name="comment" class="form-control bg-white"></textarea>
+             </div>
+
+             <div class="mb-3">
+                <input type="submit" class="btn btn-primary w-100 btn-block" value="Submit">
+             </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
+            <img src="{%static 'img/usdt.png'%}" class="w-10 mb-3">
+            <p class="small">USDT (TRC20) Address &nbsp;&nbsp;<span class="text-info">TEF8hr6kopSWWFhNxARMdJbqvbkfQauNpL</span>&nbsp;&nbsp; <span><a class="btn btn-warning btn-sm">copy</a></span> </p>
+            
+        </div>
+
+        <div class="row  bg-secondary rounded mx-0 p-3">
+            <img src="{%static 'img/usdt.png'%}" class="w-10 mb-3">
+            <p class="text-danger">Bank Name &nbsp;&nbsp;<span>:</span> &nbsp;&nbsp;<span>xxxx</span><br>
+            Account Number &nbsp;&nbsp;<span>:</span> &nbsp;&nbsp;<span>xxxx</span><br>
+         Beneficiary name &nbsp;&nbsp;<span>:</span>&nbsp;&nbsp; <span>xxxx</span><br>
+        IFSC Code &nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;<span>xxxx</span></p>
+
+
+        </div>
+
+    </div>
+</div>
+
+  
+</div>  
+
+
+
+{% endblock %}

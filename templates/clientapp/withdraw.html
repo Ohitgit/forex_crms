@@ -1,0 +1,130 @@
+{% extends 'clientapp/index.html' %}
+{% load static %}
+{% block home %}
+<style>
+    .w-10{
+        width: 10%;
+    }
+    .bank{
+        font-size: 50px;
+    }
+</style>
+<div class="container-fluid pt-4 px-4">
+    <h6>Withdraw Methods
+        <hr>
+    </h6>
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3" id="withdraw_usdtk">
+            <div class="col-lg-2 col-md-2">
+                <img src="{%static 'img/india.png'%}" class="w-75 mb-3" style="filter: invert(1);">
+
+            </div>
+            <div class="col-lg-10 col-md-10 pt-3 align-items-center">
+                <h4>Withdraw in USDT</h4>
+
+            </div>
+            
+        </div>
+
+        <div class="row  bg-secondary rounded mx-0 p-3">
+            <div class="col-lg-2 col-md-2">
+                <i class="fa-solid fa-building-columns bank text-white"></i> 
+
+            </div>
+
+            <div class="col-lg-10 col-md-10 pt-3 align-items-center">
+                <h4>Withdraw in Bank</h4>
+
+            </div>
+
+    </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6">
+    <!-- Crypto waithdraw form start here -->
+
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3" id="withdraw_usdt">
+            <h6>Withdraw In USDT Wallet <hr></h6>
+       
+            <div class="col-12 mb-3">
+                <select class="form-control" name="trade_account_number">
+                    <option>Select Withdraw From</option>
+                        <option>Wallet&nbsp;(0.00&nbsp;USD)</option>
+                        <option>xxxx &nbsp;(0.00&nbsp;USD)</option>
+
+                </select>
+            </div>
+
+            <div class="col-12 mb-3">
+                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+
+            </div>
+        
+
+            <div class="mb-3">
+                <textarea placeholder="Crypto Wallet Details"  name="comment" class="form-control bg-white"></textarea>
+             </div>
+
+             <div class="mb-3">
+                <input type="submit" class="btn btn-primary w-100 btn-block" value="Submit">
+             </div>
+
+        </div>
+                    <!-- Crypto waithdraw form start here -->
+
+
+            <!-- bank waithdraw form start here -->
+
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
+            <h6>Withdraw In Bank <hr></h6>
+       
+            <div class="col-12 mb-3">
+                <select class="form-control" name="trade_account_number">
+                    <option>Select Withdraw From</option>
+                    <option>Wallet&nbsp;(0.00&nbsp;USD)</option>
+                    <option>xxxx &nbsp;(0.00&nbsp;USD)</option>
+
+                </select>
+            </div>
+
+            <div class="col-12 mb-3">
+                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+
+            </div>
+        
+
+            <div class="mb-3">
+                <input type="text" name="beneficiary_name" class="form-control bg-white" placeholder="Beneficiary name">
+             </div>
+             <div class="mb-3">
+                <input type="text" name="ifsc_code" class="form-control bg-white" placeholder="IFSC CODE">
+             </div>
+             <div class="mb-3">
+                <input type="number" name="account_number" class="form-control bg-white" placeholder="Account Number">
+             </div>
+
+             <div class="mb-3">
+                <input type="submit" class="btn btn-primary w-100 btn-block" value="Submit">
+             </div>
+
+        </div>
+            <!-- bank withdraw form End here -->
+
+
+    </div>
+
+
+  
+
+
+   
+</div>
+
+  
+</div>  
+
+
+
+{% endblock %}

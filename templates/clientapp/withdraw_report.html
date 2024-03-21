@@ -1,0 +1,104 @@
+{% extends 'clientapp/index.html' %}
+{% load static %}
+{% block home %}
+<div class="container-fluid pt-4 px-4  mb-5">
+
+    
+    <div class="d-lg-flex justify-content-between mb-3">
+        <div>
+            <div class="form-group">
+                <label class="small font-weight-bold"><b> From Date</b></label>
+                <input type="date" class="form-control bg-white mt-1" name="from_date">
+
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="small"><b> To Date</b></label>
+                <input type="date" class="form-control bg-white mt-1" name="to_date">
+
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="small"> <b>Tr.id</b> </label>
+                <input type="text" class="form-control bg-white mt-1" name="tr_id">
+
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="small"><b>Withdraw From</b> </label>
+                <input type="text" class="form-control bg-white mt-1" name="withdraw_from">
+
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="small"><b>Withdraw Type</b></label>
+                <input type="text" class="form-control bg-white mt-1" name="withdraw_type">
+
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label class="small"><b> Status</b></label>
+                <input type="text" class="form-control bg-white mt-1" name="status">
+
+            </div>
+        </div>
+    </div>
+    <div class="d-lg-flex mb-5 d-md-flex justify-content-end">
+        <div>
+           <button class="btn btn-info"><b>Download</b>&nbsp; <span><i class="fa-solid fa-file-pdf"></i></span></button>
+        </div>&nbsp;&nbsp;&nbsp;
+        <div>
+            <button class="btn btn-warning"><b>Download</b>&nbsp; <span><i class="fa-solid fa-file-excel"></i></span></button>
+        </div>&nbsp;&nbsp;&nbsp;
+         <div>
+            <button class="btn btn-success"><b>Download</b>&nbsp; <span><i class="fa-solid fa-file-csv"></i></span></button>
+        </div>&nbsp;&nbsp;&nbsp;
+        <div>
+            <input type="submit" class="btn btn-primary" value="Search">
+        </div>
+    </div>
+   
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Withdraw Report</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Tr. ID</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Withdraw From</th>
+                            <th scope="col">Withdraw Type</th>
+                            <th scope="col">Reciept Url</th>
+
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <th scope="row">xxxx</th>
+                            <td>xxxxx</td>
+                            <td>xxxxx</td>
+                            <td>xxxxx</td>
+                            <td>xxxxx</td>
+                            <td>xxxxx</td>
+                            <td>xxxxx</td>
+                            <td>xxxxx</td>
+
+                        </tr>
+                      
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 
+{% endblock %}

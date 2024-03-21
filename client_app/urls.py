@@ -24,5 +24,11 @@ urlpatterns = [
     
 
     path('liveaccount',LiveAccount.as_view() ,name="liveaccount"),
+    path('client-deposit',deposit.as_view() ,name="deposit"),
+    path('client-withdraw',withdraw.as_view() ,name="withdraw"),
+    path('internal-transfer',internal_transfer.as_view() ,name="internal_transfer"),
+    path('internal-transfer-report',internal_transfer_report.as_view() ,name="internal_transfer_report"),
+    path('deposit-report',deposit_report.as_view() ,name="deposit_report"),
+    path('withdraw-report',withdraw_report.as_view() ,name="withdraw_report"),
 
 ]

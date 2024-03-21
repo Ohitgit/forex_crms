@@ -387,3 +387,36 @@ class LiveAccount(View):
             return JsonResponse({'error': 'Failed to create LiveAccount'}, status=response_api.status_code)
           
       return render(request,self.template_name)
+
+
+
+class deposit(View):
+    template_name="clientapp/deposit.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+    
+class withdraw(View):
+    template_name="clientapp/withdraw.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+
+class internal_transfer(View):
+    template_name="clientapp/internal_transfer.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+
+class internal_transfer_report(View):
+    template_name="clientapp/internal_transfer_report.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+    
+class deposit_report(View):
+    template_name="clientapp/deposit_report.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+
+class withdraw_report(View):
+    template_name="clientapp/withdraw_report.html"
+    def get(self, request):
+        return render(request,self.template_name)     
+
