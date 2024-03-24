@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+from django.utils import timezone 
 # Create your models here.
 class BaseModel(models.Model):
     added_on = models.DateTimeField(default=timezone.now,db_index=True)
@@ -32,6 +32,9 @@ class Client_Register(BaseModel):
     address=models.CharField(null=True,blank=True,db_index=True,max_length=200)
 
 
+
+
+
     def __str__(self):
         return self.username
 
@@ -50,3 +53,12 @@ class LiveAccount(BaseModel):
    
 
 
+class UploadDocument(BaseModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
+    documenttype=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    identitytype=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    img=models.FileField(null=True,db_index=True,upload_to='img/')
+    img2=models.FileField(null=True,db_index=True,upload_to='img2/')
+    datetime=models.DateTimeField(null=True,default=timezone.now)
+
+    

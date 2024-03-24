@@ -76,6 +76,7 @@ class Client_register(View):
                 return render(request,self.template_name,context)
             else:
                 instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=hasedpwd,email=email)
+                UploadDocument.objects.create(user=instance)
                 Client_Register.objects.create(user=instance,first_name=first_name,last_name=last_name,email=email,mobile_no=mobile ,city=city,pincode=zipcode, country=country,username=username,password=password ,address=address,state=state)
                
                 if Otp_Status.objects.filter(otp_status=False).exists():
@@ -143,9 +144,13 @@ class auth_reset_password(View):
 
 
 class Client_profile(View):
+    
     template_name="clientapp/client_profile.html"
     def get(self, request):
-        return render(request,self.template_name)
+        upload_document=UploadDocument.objects.get(user=request.user)
+        profile=Client_Register.objects.get(user=request.user)
+        context={'profile':profile,'upload_document':upload_document}
+        return render(request,self.template_name,context)
 
 
 class Open_live_account(View):
@@ -420,3 +425,74 @@ class withdraw_report(View):
     def get(self, request):
         return render(request,self.template_name)     
 
+
+
+
+class Upadte_Information(View):
+   
+    def post(self, request):
+        profile=Client_Register.objects.get(user=request.user)
+        if request.method =="POST":
+            profile.first_name=request.POST.get('first_name')  
+            profile.last_name=request.POST.get('last_name')      
+            profile.mobile_no=request.POST.get('mobile') 
+            profile.save()
+            return redirect('client_profile')
+
+
+
+class Upadte_Residential(View):
+   
+    def post(self, request):
+        profile=Client_Register.objects.get(user=request.user)
+        if request.method =="POST":
+            profile.pincode=request.POST.get('pincode')  
+            profile.city=request.POST.get('city')      
+            profile.state=request.POST.get('state') 
+            profile.country=request.POST.get('country')
+            profile.address=request.POST.get('address')
+            profile.save()
+            return redirect('client_profile')
+
+
+class Change_Password(View):
+   
+    def post(self, request):
+        user=User.objects.get(username=request.user)
+        if request.method =="POST":
+          
+          new_password=request.POST.get('new_password')
+          confirm_password=request.POST.get('confirm_password')
+          if new_password == confirm_password:
+            user.set_password(new_password)
+            user.save()
+            return redirect('client_login')
+            
+
+
+
+class UpadteDoucment(View):
+   
+    def post(self, request):
+        profile=UploadDocument.objects.get(user=request.user)
+        if request.method =="POST":
+            profile.documenttype=request.POST.get('document_type')  
+                 
+            profile.img=request.FILES.get('img') 
+           
+            profile.save()
+            return redirect('client_profile')
+
+
+
+class UpadteDoucment2(View):
+   
+    def post(self, request):
+        profile=UploadDocument.objects.get(user=request.user)
+        if request.method =="POST":
+            profile.identitytype=request.POST.get('identitytype')  
+            print(request.POST.get('identitytype')  )   
+            profile.img2=request.FILES.get('img2') 
+           
+            profile.save()
+            return redirect('client_profile')

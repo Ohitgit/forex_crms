@@ -30,5 +30,10 @@ urlpatterns = [
     path('internal-transfer-report',internal_transfer_report.as_view() ,name="internal_transfer_report"),
     path('deposit-report',deposit_report.as_view() ,name="deposit_report"),
     path('withdraw-report',withdraw_report.as_view() ,name="withdraw_report"),
+    path('upadte-information',Upadte_Information.as_view() ,name="Upadte_Information"),
+    path('upadte-residential',Upadte_Residential.as_view() ,name="Upadte_Residential"),
+    path('change-password',Change_Password.as_view() ,name="Change_Password"),
+    path('upadte-doucment',UpadteDoucment.as_view() ,name="UpadteDoucment"),
+    path('upadte-doucment2',UpadteDoucment2.as_view() ,name="UpadteDoucment2"),
 
 ]
