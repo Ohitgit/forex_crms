@@ -196,12 +196,15 @@
                   </p>
                   <form method="post">
                     <div class="row mb-3">
-                      <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Email Address</label>
+                     
                       <div class="col-sm-8">
                         {% csrf_token %}
+                        {% if profile.email_status == False %}
+                        <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Email Address</label>
                         <div id="emails">
                         <input type="email" class="form-control " id="email" placeholder="email" name="first_name" value="">
                       </div>
+                      {% endif %}
                         <input type="text" class="form-control" name="otp" placeholder="otp" id="otp" style="display: none;">
                         {% if profile.email_status == True %}
                         <small class="text-success fr"  id="verified">Email Verified</small>&nbsp;
@@ -209,8 +212,9 @@
                         <small class="text-warning fr"id="unverified">Email Unverified</small>
                         {% endif %}
                        
-                        
+                        {% if profile.email_status == False %}
                        <span><button type="button" class="btn btn-primary mt-2" id="emailverify">Email Verify</button></span> 
+                       {% endif %} 
                        <span><button type="button" class="btn btn-primary mt-2" id="otpverify" style="display: none;">Otp Verify</button></span> 
                       </div>
                     </div>
