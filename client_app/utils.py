@@ -73,6 +73,26 @@ class Util:
         email = EmailMultiAlternatives("Email Verification ", text_content, conf_settings.EMAIL_HOST_USER, [mail_to])
         email.attach_alternative(text_content, 'text/html')
         EmailThread(email).start()
+    
+
+
+    @staticmethod
+    def email_verfication(request,user,otp):
+        mail_from = conf_settings.EMAIL_HOST_USER
+        mail_to = user
+        
+        context_data = {
+        'mail_from':mail_from,
+        'mail_to': mail_to,
+         'otp':otp,
+    
+        }
+        text_content = render_to_string('{0}/templates/client/email/otp_mail.html'.format(conf_settings.BASE_DIR), context=context_data)
+        email = EmailMultiAlternatives("Email Verification ", text_content, conf_settings.EMAIL_HOST_USER, [mail_to])
+        email.attach_alternative(text_content, 'text/html')
+        EmailThread(email).start()
+
+
 
       
     @staticmethod

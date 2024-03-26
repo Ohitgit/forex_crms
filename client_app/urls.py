@@ -35,5 +35,7 @@ urlpatterns = [
     path('change-password',Change_Password.as_view() ,name="Change_Password"),
     path('upadte-doucment',UpadteDoucment.as_view() ,name="UpadteDoucment"),
     path('upadte-doucment2',UpadteDoucment2.as_view() ,name="UpadteDoucment2"),
+    path('email-verify',EmailVerfiy.as_view() ,name="email_verify"),
+    path('otp-verify',Email_Otp.as_view() ,name="otp_verify"),
 
 ]

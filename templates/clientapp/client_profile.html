@@ -194,13 +194,24 @@
                   </h6>
 
                   </p>
-                  <form>
+                  <form method="post">
                     <div class="row mb-3">
                       <label for="first_name" class="col-sm-4 col-form-label text-capitalize">Email Address</label>
                       <div class="col-sm-8">
-                        <input type="email" class="form-control" id="first_name" name="first_name" value="">
-                        <small class="text-success fr">Email Verified</small>&nbsp;
-                        <small class="text-warning fr">Email Unverified</small>
+                        {% csrf_token %}
+                        <div id="emails">
+                        <input type="email" class="form-control " id="email" placeholder="email" name="first_name" value="">
+                      </div>
+                        <input type="text" class="form-control" name="otp" placeholder="otp" id="otp" style="display: none;">
+                        {% if profile.email_status == True %}
+                        <small class="text-success fr"  id="verified">Email Verified</small>&nbsp;
+                        {% else %}
+                        <small class="text-warning fr"id="unverified">Email Unverified</small>
+                        {% endif %}
+                       
+                        
+                       <span><button type="button" class="btn btn-primary mt-2" id="emailverify">Email Verify</button></span> 
+                       <span><button type="button" class="btn btn-primary mt-2" id="otpverify" style="display: none;">Otp Verify</button></span> 
                       </div>
                     </div>
                   </form>
@@ -247,8 +258,14 @@
                   <p>
                   <h6 class="mb-4 text-center">ID Proof Verification
                   </h6>
-
+ 
                   </p>
+
+                  {% for message in messages %}
+                  <div class="alert alert-success mt-2" role="alert">
+                   {{message}}
+                 </div>
+                 {% endfor %}
                   <form action="{% url 'UpadteDoucment' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row mb-3">
@@ -516,6 +533,87 @@
 </div>
 
 <!-- Blank End -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+<script>
+$(document).ready(function(){
+  $('#emailverify').click(function(){
+    var email= $('#email').val()
+     if (email === "")
+     {
+       alert('please enter email')
+     }
+     else{
+      token = $('input[name=csrfmiddlewaretoken]').val()
+            $.ajax({
+                type: "POST",
+                url: "{% url 'email_verify' %}",
+                data: {
+                    'email': email,
+                    csrfmiddlewaretoken: token
+                },
+                success: function (data) {
+                    
+                    if(data.msg)
+                    {
+                      $('#emails').hide()
+                      $('#emailverify').hide()
+                      $('#otpverify').show()
+                      $('#otp').show()
+                    }
+
+                    else{
+                        alert('user does not exists')
+                    }
+                    
+                }
+            });
+     }
+
+  });
+
+
+
+
+  $('#otpverify').click(function(){
+  
+    var otp= $('#otp').val()
+     if (otp === "")
+     {
+       alert('please enter 6 number digit ')
+     }
+     else{
+      token = $('input[name=csrfmiddlewaretoken]').val()
+            $.ajax({
+                type: "POST",
+                url: "{% url 'otp_verify' %}",
+                data: {
+                    'otp': otp,
+                    csrfmiddlewaretoken: token
+                },
+                success: function (data) {
+                    
+                    if(data.msg)
+                    {
+                      
+                      alert('otp verfiy successfully..')
+                      location.reload()
+                    }
+
+                    else{
+                        alert('user does not exists')
+                    }
+                    
+                }
+            });
+     }
+
+  });
+
+
+
+});
+
+  </script>
 
 {% endblock %}

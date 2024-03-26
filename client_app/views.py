@@ -15,6 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+from django.contrib import messages
 # Create your views here.
 
 
@@ -481,6 +482,7 @@ class UpadteDoucment(View):
             profile.img=request.FILES.get('img') 
            
             profile.save()
+            messages.success(request, 'Doucment Upload Updated..')
             return redirect('client_profile')
 
 
@@ -495,4 +497,36 @@ class UpadteDoucment2(View):
             profile.img2=request.FILES.get('img2') 
            
             profile.save()
+            messages.success(request, 'Doucment Upload Updated..')
             return redirect('client_profile')
+
+
+
+class EmailVerfiy(View):
+   
+    def post(self, request):
+       
+        if request.method =="POST":
+            email=request.POST.get('email') 
+            otp = random.randint(100000, 999999)
+            request.session['emailotp']=otp
+            Util.email_verfication(request,email,otp)
+            return JsonResponse({'msg':"otp send"})
+
+
+
+class Email_Otp(View):
+    
+    
+    def post(self,request):
+        if request.method == 'POST':
+            otp1=request.POST.get('otp')
+            otp=request.session.get('emailotp')
+            email_status=Client_Register.objects.get(user=request.user)
+            print('email_status',email_status)
+            email_status.email_status=True
+            email_status.save()
+            print('otp1',otp1)
+            if int(otp) == int(otp1):
+                return JsonResponse({'msg':"otp send"})
+
