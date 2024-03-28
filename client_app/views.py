@@ -155,14 +155,99 @@ class Client_profile(View):
 
 
 class Open_live_account(View):
+    forex_group=Forex_Group.objects.all()
+    leverage= Add_Leverage.objects.all()
+    demo=LiveAccount.objects.filter(group="DC/ECN")
+    context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     template_name="clientapp/open_live_account.html"
     def get(self, request):
-        return render(request,self.template_name)
+        return render(request,self.template_name,self.context)
+    
+    def post(self,request):
+      if request.method =="POST":
+          forexgroup=request.POST.get('forex_group')
+          leverage=request.POST.get('leverage')
+          user=Client_Register.objects.get(user=request.user)
+          print('user',user)
+          url = "http://103.138.189.81/api/mt5/createLiveAccount"
+          headers = {'Content-Type': 'application/json'}
+          data={
+              "ip": "id16.idnfxservers.top:8707",
+                "login": 2001,
+                "password": "Dynamic@222",
+                "name": user.first_name,
+                "group": forexgroup,
+                 "email": user.email,
+                 "leverage":  leverage,
+                 "main_password": "trade@1234",
+                 "invest_password": "1234@trade",
+                 "phone_password": user.mobile_no,
+                 "country": "India",
+                 
+                
+            
+              }
+          print('data',data)
+          print('url',url)
+          response_api = requests.post(url, headers=headers,json=data)
+          response_data= response_api.json()
+          print('json1',response_data)
+          if response_api.status_code == 200:
+            LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'])
+            return redirect('open_live_account')
+            # return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
+          else:
+            return JsonResponse({'error': 'Failed to create LiveAccount'}, status=response_api.status_code)
+          
+      return render(request,self.template_name,self.context) 
 
 class Open_demo_account(View):
+
     template_name="clientapp/open_demo_account.html"
+    forex_group=Forex_Group.objects.all()
+    leverage= Add_Leverage.objects.all()
+    demo=LiveAccount.objects.filter(group="DC/DEMO")
+    context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     def get(self, request):
-        return render(request,self.template_name)    
+        return render(request,self.template_name,self.context)
+    def post(self,request):
+      if request.method =="POST":
+          forexgroup=request.POST.get('forex_group')
+          leverage=request.POST.get('leverage')
+          user=Client_Register.objects.get(user=request.user)
+          print('user',user)
+          url = "http://103.138.189.81/api/mt5/createLiveAccount"
+          headers = {'Content-Type': 'application/json'}
+          data={
+              "ip": "id16.idnfxservers.top:8707",
+                "login": 2001,
+                "password": "Dynamic@222",
+                "name": user.first_name,
+                "group": forexgroup,
+                 "email": user.email,
+                 "leverage":  leverage,
+                 "main_password": "trade@1234",
+                 "invest_password": "1234@trade",
+                 "phone_password": user.mobile_no,
+                 "country": "India",
+                 
+                
+            
+              }
+          print('data',data)
+          print('url',url)
+          response_api = requests.post(url, headers=headers,json=data)
+          response_data= response_api.json()
+          print('json1',response_data)
+          if response_api.status_code == 200:
+            
+            LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'])
+            return redirect('open_demo_account')
+            # return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
+          else:
+            return JsonResponse({'error': 'Failed to create LiveAccount'}, status=response_api.status_code)
+          
+      return render(request,self.template_name,self.context)    
 
 
 
@@ -324,7 +409,7 @@ class Forgot(View):
 class ChangePassword(View):
     template_name="clientapp/auth_reset_password.html" 
     form=ChangePasswordForm()
-    print('form',form)
+    
     context={'form':form}
     def get(self, request,token):
       return render(request,self.template_name,self.context)
@@ -348,51 +433,7 @@ class ChangePassword(View):
                  return redirect('client_login')
         return render(request,self.template_name,self.context)
 
-from django.contrib.auth.decorators import login_required
-import requests
 
-class LiveAccount(View):
-    template_name="client/liveaccount.html"
-    
-    def get(self, request):
-      user=Client_Register.objects.get(user=request.user)
-      print('user',user)
-      return render(request,self.template_name)
-    
-    def post(self,request):
-      if request.method =="POST":
-          forexgroup=request.POST.get('forex_group')
-          leverage=request.POST.get('leverage')
-          user=Client_Register.objects.get(user=request.user)
-          print('user',user)
-          url = "http://103.138.189.81/api/mt5/createLiveAccount"
-          headers = {'Content-Type': 'application/json'}
-          data={
-              "ip": "43.228.124.119",
-                "login": 313,
-                "password": "Raz@1234",
-                "name": user.first_name,
-                "group": forexgroup,
-                 "email": user.email,
-                 "leverage":  leverage,
-                 "main_password": "trade@1234",
-                 "invest_password": "1234@trade",
-                "phone_password": user.mobile_no,
-                 "country": "India",
-            
-              }
-          print('data',data)
-          print('url',url)
-          response_api = requests.post(url, headers=headers,json=data)
-          json1= response_api.json()
-          print('json1',json1)
-          if response_api.status_code == 200:
-            # LiveAccount.objects.create(ac_type=response_data.get('accountType'), cu_type=response_data.get('depositCurrency'),account_no=response_data.get('login'),user=request.user)
-            return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
-          else:
-            return JsonResponse({'error': 'Failed to create LiveAccount'}, status=response_api.status_code)
-          
-      return render(request,self.template_name)
 
 
 

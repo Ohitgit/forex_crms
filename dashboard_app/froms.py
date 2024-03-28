@@ -5,8 +5,4 @@ from django import forms
 from .models import *
 
 # create a ModelForm
-class AddGroupForm(forms.ModelForm):
-	# specify the name of model to use
-	class Meta:
-		model = Add_Group
-		fields = ('name',)
+

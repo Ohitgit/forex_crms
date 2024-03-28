@@ -12,23 +12,26 @@ class BaseModel(models.Model):
 
 class Add_Leverage(BaseModel):
       add_leverage_value=models.IntegerField(null=True,blank=True,db_index=True)
-      def __str__(self) -> str:
-           return self.add_leverage_value
+      def __str__(self):
+           return str(self.add_leverage_value)
 
 
 class Add_Currency(BaseModel):
       name=models.CharField(null=True,blank=True,db_index=True,max_length=200)
-      def __str__(self) -> str:
-           return self.name
+      def __str__(self):
+       return self.name
 
         
-class Add_Group(BaseModel):
+class Forex_Group(BaseModel):
     name=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    def __str__(self):
+      return self.name
 
-    def __str__(self) -> str:
-           return self.name
-
-
+class Demo_Account(BaseModel):
+    amount=models.CharField(null=True,blank=True,db_index=True,max_length=200)
+    def __str__(self):
+      return self.amount
+    
 class Create_Forex_Group(BaseModel):
      Account_type = (('live account', 'Live Account'), ('demo account', 'Demo Acount'),)
      account_name= models.CharField( max_length=20,choices=Account_type, default='live account',db_index=True)

@@ -23,7 +23,7 @@ urlpatterns = [
     path('changepassword/<str:token>',ChangePassword.as_view(), name='changepassword'),
     
 
-    path('liveaccount',LiveAccount.as_view() ,name="liveaccount"),
+    
     path('client-deposit',deposit.as_view() ,name="deposit"),
     path('client-withdraw',withdraw.as_view() ,name="withdraw"),
     path('internal-transfer',internal_transfer.as_view() ,name="internal_transfer"),

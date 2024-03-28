@@ -11,6 +11,7 @@ class BaseModel(models.Model):
 
 class Otp_Status(BaseModel):
     otp_status=models.BooleanField(default=False)
+
 class Client_Register(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
     first_name=models.CharField(null=True,blank=True,db_index=True,max_length=200)
@@ -39,7 +40,7 @@ class Client_Register(BaseModel):
         return self.username
 
 class LiveAccount(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,db_index=True)
     ip=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     login=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     email=models.CharField(null=True,blank=True,db_index=True,max_length=200)
@@ -50,7 +51,13 @@ class LiveAccount(BaseModel):
     invest_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     phone_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     country=models.CharField(null=True,blank=True,db_index=True,max_length=100)
-   
+
+
+
+
+
+
+
 
 
 class UploadDocument(BaseModel):
