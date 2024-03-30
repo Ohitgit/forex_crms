@@ -10,39 +10,51 @@
     <h6>Deposit Methods
         <hr>
     </h6>
+   <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for message in messages %}
+    <div class="alert alert-success mt-2" role="alert">
+     {{message}}
+   </div>
+   {% endfor %}
 <div class="row">
    
-
+     
     <div class="col-lg-6 col-md-6">
         <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
             <h6>Crypto Wallet Deposit <hr></h6>
        
             <div class="col-12 mb-3">
-                <select class="form-control" name="trade_account_number">
-                    <option>Deposit In</option>
-                    <option>Wallet</option>
-                        <option>xxxx &nbsp;(0.00 &nbsp;USD)</option>
+                <select class="form-control" name="trade_account_number" required>
+                   
+                    <option value="wallet">Wallet</option>
+
+                         {% for  x in live  %}
+                           
+                         
+                        <option value="{{x.login}}">{{x.login}} &nbsp;(0.00 &nbsp;USD)</option>
+                        {% endfor %}
                 </select>
             </div>
 
             <div class="col-12 mb-3">
-                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD" required>
 
             </div>
             <div class="col-12 mb-3">
-                <select class="form-control" name="deposit_type">
+                <select class="form-control" name="deposit_type" required>
                     <option>Bank Deposit</option>
                         <option>USDT Deposit</option>
 
                 </select>
             </div>
             <div class="col-12 mb-3">
-                <input type="file" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+                <input type="file" name="file" class="form-control bg-white" placeholder="Amount in USD" required>
                 <small class="text-info">  supported file type: .jpeg, .png</small>
             </div>
 
             <div class="mb-3">
-                <textarea placeholder="Comments"  name="comment" class="form-control bg-white"></textarea>
+                <textarea placeholder="Comments"  name="comment" class="form-control bg-white" required></textarea>
              </div>
 
              <div class="mb-3">
@@ -63,11 +75,14 @@
 
         <div class="row  bg-secondary rounded mx-0 p-3">
             <img src="{%static 'img/usdt.png'%}" class="w-10 mb-3">
-            <p class="text-danger">Bank Name &nbsp;&nbsp;<span>:</span> &nbsp;&nbsp;<span>xxxx</span><br>
-            Account Number &nbsp;&nbsp;<span>:</span> &nbsp;&nbsp;<span>xxxx</span><br>
-         Beneficiary name &nbsp;&nbsp;<span>:</span>&nbsp;&nbsp; <span>xxxx</span><br>
-        IFSC Code &nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;<span>xxxx</span></p>
-
+            
+              
+           
+            <p class="text-danger">Bank Name &nbsp;&nbsp;<span>:</span> &nbsp;&nbsp;<span>{{bank.bank_name}}</span><br>
+            Account Number &nbsp;&nbsp;<span>:</span> &nbsp;&nbsp;<span>{{bank.account_name}}</span><br>
+         Beneficiary name &nbsp;&nbsp;<span>:</span>&nbsp;&nbsp; <span>{{bank.benificary_name}}</span><br>
+        IFSC Code &nbsp;&nbsp;<span>:</span>&nbsp;&nbsp;<span>{{bank.ifsc_code}}</span></p>
+        
 
         </div>
 
@@ -76,6 +91,7 @@
 
   
 </div>  
+</form>
 
 
 

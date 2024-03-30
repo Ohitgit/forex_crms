@@ -9,6 +9,7 @@ from  .utils import *
 import random
 import json
 import requests
+import uuid
 from .forms import *
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
@@ -16,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.contrib import messages
+from dashboard_app.models import *
 # Create your views here.
 
 
@@ -435,12 +437,28 @@ class ChangePassword(View):
 
 
 
-
+def genrate_transcationid():
+    return str(uuid.uuid4())[:8]
 
 class deposit(View):
     template_name="clientapp/deposit.html"
+    live=LiveAccount.objects.filter(group='DC/ECN')
+    bank=Bank_Detail.objects.first()
+    context={'live':live,'bank':bank}
     def get(self, request):
-        return render(request,self.template_name) 
+        return render(request,self.template_name,self.context) 
+    def post(self,request):
+        ip = request.META.get('REMOTE_ADDR')
+       
+        trade_account=request.POST.get('trade_account_number')
+        amount=request.POST.get('amount')
+        deposit_type=request.POST.get('deposit_type')
+        recipet=request.FILES.get('file')
+        comment=request.POST.get('comment')
+        user_amount=Client_Register.objects.get(user=request.user)
+        UserDeposits.objects.create(user=request.user,action_choice=trade_account,amount=amount,deposit_from=deposit_type,recipet=recipet,comment=comment,transaction_ID=genrate_transcationid(),ip_address=ip)
+        messages.success(request, 'Deposit Inserted Successfully...')
+        return render(request,self.template_name,self.context) 
     
 class withdraw(View):
     template_name="clientapp/withdraw.html"
@@ -477,7 +495,8 @@ class Upadte_Information(View):
         if request.method =="POST":
             profile.first_name=request.POST.get('first_name')  
             profile.last_name=request.POST.get('last_name')      
-            profile.mobile_no=request.POST.get('mobile') 
+            profile.mobile_no=request.POST.get('mobile')
+            profile.gender=request.POST.get('gender') 
             profile.save()
             return redirect('client_profile')
 
