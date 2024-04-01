@@ -9,27 +9,34 @@
             <hr>
         </h6>
     </div>
-
+  <form action="" method="post">
+    {% csrf_token %}
     <div class="row mt-3">
         <div class="col-lg-3 col-md-3">
             <div class="form-group">
                 <label>Transfer From</label>
-                <select class="form-control" name="transfer_from" id="transfer_from">
+                <select class="form-control" name="transfer_from" id="transfer_from" required>
                     <option>Wallet&nbsp;(0.00&nbsp;USD)</option>
-                    <option>xxxx&nbsp;(0.000&nbsp;USD)</option>
+                    {% for x  in demo %}
+                      
+                    
+                    <option value="{{x.login}}">{{x.login}}&nbsp;(0.000&nbsp;USD)</option>
+                    {% endfor %}
                 </select>
             </div>
         </div>
         <div class="col-lg-3 col-md-3">
             <label>Transfer To</label>
-            <select class="form-control" name="transfer_from" id="transfer_from">
+            <select class="form-control" name="transfer_from1" id="transfer_from" required>
                 <option>Wallet&nbsp;(0.00&nbsp;USD)</option>
-                <option>xxxx&nbsp;(0.000&nbsp;USD)</option>
+                {% for x  in demo %}
+                <option value="{{x.login}}">{{x.login}}&nbsp;(0.000&nbsp;USD)</option>
+                {% endfor %}
             </select>
         </div>
         <div class="col-lg-3 col-md-3">
             <label>Amount(USD)</label>
-            <input type="number" class="form-control bg-white" step="any" name="amount"/>
+            <input type="number" class="form-control bg-white" step="any" name="amount" required/>
         </div>
         
         <div class="col-lg-3 col-md-3 pt-3">
@@ -38,7 +45,7 @@
         </div>
 
     </div>
-
+</form>
         
     </div>
 </div>        

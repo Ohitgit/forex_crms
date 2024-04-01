@@ -100,4 +100,10 @@ class UserDeposits(BaseModel):
     status=models.BooleanField(default=False,db_index=True)
     def __str__(self):
         return '{0}'.format(self.user)
+    
 
+class Internal_Transfer(BaseModel):
+    transfer_from = models.TextField(null=True,blank=True,db_index=True)
+    amount= models.TextField(null=True,blank=True,db_index=True)
+    transaction_ID = models.CharField(max_length=255,null=True,blank=True,db_index=True)
+    ip_address = models.CharField(max_length=255,null=True,blank=True,db_index=True)

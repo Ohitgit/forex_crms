@@ -16,7 +16,7 @@
             <select class="form-control" name="forex_group" required>
                 <option>Select Account Type</option>
                 {% for x in forex_group %}
-                <option value="{{x.name}}"  {% if x.name == 'DC/ECN'  %} selected
+                <option value="{{x.name}}"  {% if x.name == 'pro/micro'  %} selected
                   
                 {% endif %}>{{x.name}}</option>
                 {% endfor %}
