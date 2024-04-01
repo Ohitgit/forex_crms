@@ -607,10 +607,13 @@ $(document).ready(function(){
                       alert('otp verfiy successfully..')
                       location.reload()
                     }
-
-                    else{
-                        alert('user does not exists')
+                    if(data.msg1)
+                    {
+                      
+                      alert(' invaliad otp successfully..')
+                     
                     }
+                   
                     
                 }
             });

@@ -37,10 +37,6 @@ class Client_Register(BaseModel):
     demo_account_limit=models.IntegerField(null=True,blank=True,db_index=True)
     address=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     user_wallet=models.FloatField(null=True,blank=True,db_index=True)
-
-
-
-
     def __str__(self):
         return self.username
 

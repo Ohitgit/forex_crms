@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 # Create your models here.
-
+from django.conf import settings
 
 class BaseModel(models.Model):
     added_on = models.DateTimeField(default=timezone.now,db_index=True)
@@ -69,20 +69,27 @@ class Email_Setting(BaseModel):
      def __str__(self) -> str:
           return self.EMAIL_PORT
      
-
+email_setting_instance = Email_Setting.objects.first()
+if email_setting_instance:
+    settings.EMAIL_BACKEND = email_setting_instance.EMAIL_BACKEND
+    settings.EMAIL_USE_TLS = email_setting_instance.EMAIL_USE_TLS
+    settings.EMAIL_HOST = email_setting_instance.EMAIL_HOST
+    settings.EMAIL_PORT = email_setting_instance.EMAIL_PORT
+    settings.EMAIL_HOST_USER = email_setting_instance.EMAIL_HOST_USER
+    settings.EMAIL_HOST_PASSWORD = email_setting_instance.EMAIL_HOST_PASSWORD    
 
 class Add_Platform_Link(BaseModel):
        link_type = (('android link', 'Android Link'), ('ios link', 'Ios Link'), ('desktop link', 'Desktop Link'))
        link= models.CharField( max_length=20,choices=link_type, default='live account',db_index=True)
 
-       def __str__(self) -> str:
+       def __str__(self):
           return self.link
        
 class Forex_Manager_Credential(BaseModel):
      ip=models.CharField(max_length=200,null=True,blank=True,db_index=True)
      login=models.CharField(max_length=200,null=True,blank=True,db_index=True)
      password=models.CharField(max_length=200,null=True,blank=True,db_index=True)
-     def __str__(self) -> str:
+     def __str__(self):
           return self.ip
 
 
@@ -91,7 +98,7 @@ class Country(BaseModel):
      shortname=models.CharField(max_length=200,null=True,blank=True,db_index=True)
      name=models.CharField(max_length=200,null=True,blank=True,db_index=True)
      code=models.IntegerField(null=True,blank=True,db_index=True)
-     def __str__(self) -> str:
+     def __str__(self):
           return self.shortname
 
 
@@ -105,7 +112,7 @@ class Bank_Detail(BaseModel):
     bank_name=models.CharField(max_length=200,null=True,blank=True,db_index=True)
     account_name=models.CharField(max_length=200,null=True,blank=True,db_index=True)
    
-    def __str__(self) -> str:
+    def __str__(self):
           return self.benificary_name
     
 
@@ -119,7 +126,7 @@ class Wallet(BaseModel):
     wallet_address=models.CharField(max_length=200,null=True,blank=True,db_index=True)
     
 
-    def __str__(self) -> str:
+    def __str__(self):
           return self.wallet_type_name
     
 
