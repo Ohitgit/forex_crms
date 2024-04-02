@@ -30,7 +30,9 @@ def forex_manager_ip():
     return ip,login,password
 
 def home(request):
-    return render(request,'clientapp/home.html')
+    wallet_amount=Client_Register.objects.get(user=request.user)
+    context={'wallet_amount':wallet_amount}
+    return render(request,'clientapp/home.html',context)
 
 
 class Client_register(View):
@@ -102,9 +104,11 @@ class Client_register(View):
     
 class Client_login(View):
     form = LoginForm()
+   
     context={'form':form}
     template_name="clientapp/client_login.html"
     def get(self, request):
+        
         return render(request,self.template_name,self.context) 
     def post(self,request):
         if request.method == 'POST':
@@ -168,7 +172,7 @@ class Open_live_account(View):
     print('yes---------')
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
-    demo=LiveAccount.objects.filter(group="DC/ECN")
+    demo=LiveAccount.objects.filter(group="pro/micro")
     ip,login,password=forex_manager_ip()
     context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     template_name="clientapp/open_live_account.html"
@@ -206,7 +210,7 @@ class Open_live_account(View):
           response_data= response_api.json()
           print('json1',response_data)
           if response_data['status'] == True:
-            LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'])
+            LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'],group_name="liveaccount")
            
             return redirect('open_live_account')
             # return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
@@ -221,7 +225,7 @@ class Open_demo_account(View):
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
     ip,login,password=forex_manager_ip()
-    demo=LiveAccount.objects.filter(group="DC/DEMO")
+    demo=LiveAccount.objects.filter(group_name="demoaccount")
     context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     def get(self, request):
         return render(request,self.template_name,self.context)
@@ -256,7 +260,7 @@ class Open_demo_account(View):
           print('json1',response_data)
           if response_data['status'] == True:
             
-            LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'])
+            LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'],group_name="demoaccount")
             return redirect('open_demo_account')
             # return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
           else:
@@ -266,67 +270,6 @@ class Open_demo_account(View):
 
 
 
-class Client_Registers(View):
-    template_name="client/signup.html"
-    country=Country.objects.all()
-    context={'country':country}
-    def get(self, request):
-        return render(request,self.template_name,self.context)
-    
-    def post(self ,request):
-        if request.method =="POST":
-            first_name=request.POST.get('first_name')
-            last_name=request.POST.get('last_name')
-            birthdate_str=request.POST.get('dob')
-            username=request.POST.get('username')
-            password=request.POST.get('pwd1')
-            hasedpwd=make_password(password)
-            confrim_password=request.POST.get('pwd2')
-            country=request.POST.get('country')
-            mobile=request.POST.get('mobile')
-            email=request.POST.get('email')
-            gender=request.POST.get('gender')
-        
-            birthdate = datetime.strptime(birthdate_str, '%Y-%m-%d').date()
-            age = (date.today() - birthdate).days // 365
-            if age < 18:
-              context={' birthdate_str': birthdate_str,'mobile':mobile,'email':email,'password':password,'confrim_password':confrim_password,'country':self.country,'birth':'You must be at least 18 years old.','first_name':first_name,'last_name':last_name}
-              return render(request,self.template_name,context)
-            
-            try:
-                User.objects.get(username=username)
-                context={'mobile':mobile,'email':email,'password':password,'confrim_password':confrim_password,'country':self.country,'username_error':'User Already Exists...','first_name':first_name,'last_name':last_name,'username':username}
-                return render(request,self.template_name,context)
-            
-            except User.DoesNotExist:
-                  username=request.POST.get('username')
-           
-           
-            try:
-                User.objects.get(email=email)
-                context={'mobile':mobile,'email':email,'password':password,'confrim_password':confrim_password,'country':self.country,'email_error':'Email Already Exists...','first_name':first_name,'last_name':last_name,'username':username}
-                return render(request,self.template_name,context)
-            
-            except User.DoesNotExist:
-                  username=request.POST.get('username')
-            #insert data
-            if password!=confrim_password:
-                context={'password':password,'confrim_password':confrim_password,'country':self.country,'password_error':'password does not match...','first_name':first_name,'last_name':last_name,'username':username}
-                return render(request,self.template_name,context)
-            else:
-                instance=User.objects.create(first_name=first_name,last_name=last_name,username=username,password=hasedpwd,email=email)
-                Client_Register.objects.create(user=instance,first_name=first_name,last_name=last_name,email=email,mobile_no=mobile ,gender=gender, country=country,dob=birthdate_str,username=username,password=password)
-                otp_staus=Otp_Status.objects.get(otp_status=False)
-                print('otp_staus',otp_staus)
-                if otp_staus:
-                   return redirect('signin')
-                else:
-                  otp = random.randint(100000, 999999)
-                  request.session['otp']=otp
-                  Util.user_email_verfication(request,instance,otp)
-                  return redirect('otp')
-               
-        return render(request,self.template_name,self.context)
 
 
 
@@ -455,7 +398,7 @@ def genrate_transcationid():
 
 class deposit(View):
     template_name="clientapp/deposit.html"
-    live=LiveAccount.objects.filter(group='DC/ECN')
+    live=LiveAccount.objects.filter(group_name='liveaccount')
     bank=Bank_Detail.objects.first()
     context={'live':live,'bank':bank}
     def get(self, request):
@@ -479,23 +422,38 @@ class withdraw(View):
         return render(request,self.template_name) 
 
 class internal_transfer(View):
-    demo=LiveAccount.objects.filter(group="pro/micro")
+    
+    demo=LiveAccount.objects.filter(group_name="liveaccount")
     ip,login,password=forex_manager_ip()
-    context={'demo':demo}
+    internal_transfer=Internal_Transfer.objects.all()
+    
+    context={'demo':demo,'internal_transfer':internal_transfer}
+
     template_name="clientapp/internal_transfer.html"
     def get(self, request):
+       
         return render(request,self.template_name,self.context) 
     def post(self,request):
+        user_wallets=Client_Register.objects.get(user=request.user)
+        ip,login,password=forex_manager_ip()
         if request.method == "POST":
           transfer_from=request.POST.get('transfer_from')
-          transfer_from1=request.POST.get('transfer_from1')
-          amount=request.POST.get('amount')
-          url = "103.138.189.81/api/mt5/depostLiveAccount"
+          transfer_to=request.POST.get('transfer_to')
+          
+          if  transfer_from ==  transfer_to:
+              demo=LiveAccount.objects.filter(group_name="liveaccount")
+              internal_transfer=Internal_Transfer.objects.all()
+              context={'demo':demo,'internal_transfer':internal_transfer,'error':'Same account selected. Please choose a different wallet type '}
+              return render(request,self.template_name,context)
+              
+
+          amount=int(request.POST.get('amount'))                                                                                                                                                                                         
+          url = "http://103.138.189.81/api/mt5/depostLiveAccount"
           headers = {'Content-Type': 'application/json'}
           data={
-              "ip": self.ip,
-                "login": self.login,
-                "password": self.password,
+              "ip": ip,
+                "login": login,
+                "password": password,
                 "account_login":transfer_from,
                  "amount": amount,
                 "comment": "test deposit"
@@ -505,8 +463,15 @@ class internal_transfer(View):
           response_api = requests.post(url, headers=headers,json=data)
           response_data= response_api.json()
           print('json1',response_data)
-          if response_data['status'] == True:
-              pass
+          if response_data['status'] == True and amount > 0 and user_wallets.user_wallet > 0 :
+              minusamount=user_wallets.user_wallet-amount
+              user_wallets.user_wallet=minusamount
+              user_wallets.save()
+              Internal_Transfer.objects.create(transfer_from=transfer_from,transfer_to=transfer_to, amount= amount, transaction_id=response_data['data']['transaction_id'])
+              messages.success(request, 'Internal Transfer Successfully...')
+          else:
+               messages.success(request, 'Somewthing Went ...')
+        return render(request,self.template_name,self.context)    
 
 class internal_transfer_report(View):
     demo=LiveAccount.objects.filter(group="pro/micro")

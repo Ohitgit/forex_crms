@@ -10,7 +10,7 @@
     <h6>Deposit Methods
         <hr>
     </h6>
-   <form action="" method="post" enctype="multipart/form-data">
+   <form action="" method="post" enctype="multipart/form-data" id="myForm">
     {% csrf_token %}
     {% for message in messages %}
     <div class="alert alert-success mt-2" role="alert">
@@ -58,7 +58,7 @@
              </div>
 
              <div class="mb-3">
-                <input type="submit" class="btn btn-primary w-100 btn-block" value="Submit">
+                <input type="submit" class="btn btn-primary w-100 btn-block" id="submitBtn" value="Submit">
              </div>
 
         </div>
@@ -93,6 +93,34 @@
 </div>  
 </form>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('myForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const fields = form.querySelectorAll('input','select','textarea');
+  
+      function checkFields() {
+        let allFilled = true;
+        fields.forEach(function(field) {
+          if (field.value.trim() === '') {
+            allFilled = false;
+          }
+        });
+  
+        if (allFilled) {
+          submitBtn.removeAttribute('disabled');
+        } else {
+          submitBtn.setAttribute('disabled', 'disabled');
+        }
+      }
+  
+      fields.forEach(function(field) {
+        field.addEventListener('input', checkFields);
+      });
+  
+      // Check on initial load
+      checkFields();
+    });
+  </script>
 
 {% endblock %}

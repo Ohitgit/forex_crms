@@ -9,14 +9,20 @@
             <hr>
         </h6>
     </div>
-  <form action="" method="post">
+
+    {% for message in messages %}
+    <div class="alert alert-success mt-2" role="alert">
+      {{message}}
+    </div>
+    {% endfor %}
+  <form action="" method="post" id="myForm">
     {% csrf_token %}
     <div class="row mt-3">
         <div class="col-lg-3 col-md-3">
             <div class="form-group">
                 <label>Transfer From</label>
                 <select class="form-control" name="transfer_from" id="transfer_from" required>
-                    <option>Wallet&nbsp;(0.00&nbsp;USD)</option>
+                    <option value="{{wallet_amounts}}">Wallet {{wallet_amounts}}&nbsp;(0.00&nbsp;USD)</option>
                     {% for x  in demo %}
                       
                     
@@ -27,20 +33,28 @@
         </div>
         <div class="col-lg-3 col-md-3">
             <label>Transfer To</label>
-            <select class="form-control" name="transfer_from1" id="transfer_from" required>
-                <option>Wallet&nbsp;(0.00&nbsp;USD)</option>
+            <select class="form-control" name="transfer_to" id="transfer_to" required>
+                <option value="{{wallet_amounts}}">Wallet {{wallet_amounts}}&nbsp;(0.00&nbsp;USD)</option>
                 {% for x  in demo %}
                 <option value="{{x.login}}">{{x.login}}&nbsp;(0.000&nbsp;USD)</option>
                 {% endfor %}
             </select>
+            {% if error is not None  %}
+            <div class="alert alert-danger mt-2 col-lg-12" role="alert">
+                {{error}}
+              </div>
+            {% endif %}
+            
         </div>
+        
+        
         <div class="col-lg-3 col-md-3">
             <label>Amount(USD)</label>
-            <input type="number" class="form-control bg-white" step="any" name="amount" required/>
+            <input type="number" class="form-control bg-white" step="any" id="amount" name="amount" required/>
         </div>
         
         <div class="col-lg-3 col-md-3 pt-3">
-            <input type="submit" class="btn btn-primary mb-submit-btn" value="Open Live Account"/>
+            <input type="submit" class="btn btn-primary mb-submit-btn" id="submitBtn" value="Open Live Account"/>
             </select>
         </div>
 
@@ -70,15 +84,21 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
+                        {% for x in internal_transfer  %}  
+                        
                         <tr>
-                            <th scope="row">1</th>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>jhon@email.com</td>
-                            <td>USA</td>
-                            <td>123</td>
+                            
+                            <th scope="row">{{x.id}}</th>
+                            <td>{{x.datetime}}</td>
+                            <td>{{x.transaction_id}}</td>
+                            <td>{{x.transfer_from}}</td>
+                            <td>{{x.transfer_to}}</td>
+                            <td>{{x.amount}}</td>
                             <td>Member</td>
+                           
                         </tr>
+                        {% endfor %}
                       
                     
                     </tbody>
@@ -89,6 +109,34 @@
 </div> 
 
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('myForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const fields = form.querySelectorAll('input','select');
+  
+      function checkFields() {
+        let allFilled = true;
+        fields.forEach(function(field) {
+          if (field.value.trim() === '') {
+            allFilled = false;
+          }
+        });
+  
+        if (allFilled) {
+          submitBtn.removeAttribute('disabled');
+        } else {
+          submitBtn.setAttribute('disabled', 'disabled');
+        }
+      }
+  
+      fields.forEach(function(field) {
+        field.addEventListener('input', checkFields);
+      });
+  
+      // Check on initial load
+      checkFields();
+    });
+  </script>
 
 {% endblock %}

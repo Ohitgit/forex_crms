@@ -6,7 +6,7 @@ from .views import *
 urlpatterns = [
     path('',home ,name="home"),
     path('client-profile',Client_profile.as_view() ,name="client_profile"),
-    path('client',Client_Registers.as_view() ,name="signup"),
+   
     path('open-demo-account',Open_demo_account.as_view() ,name="open_demo_account"),
     path('open-live-account',Open_live_account.as_view() ,name="open_live_account"),
 

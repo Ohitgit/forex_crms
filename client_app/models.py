@@ -47,6 +47,7 @@ class LiveAccount(BaseModel):
     email=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     group=models.CharField(null=True,blank=True,db_index=True,max_length=100)
+    group_name=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     leverage=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     main_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     invest_password=models.CharField(null=True,blank=True,db_index=True,max_length=100)
@@ -104,6 +105,10 @@ class UserDeposits(BaseModel):
 
 class Internal_Transfer(BaseModel):
     transfer_from = models.TextField(null=True,blank=True,db_index=True)
+    transfer_to = models.TextField(null=True,blank=True,db_index=True)
     amount= models.TextField(null=True,blank=True,db_index=True)
-    transaction_ID = models.CharField(max_length=255,null=True,blank=True,db_index=True)
+    transaction_id = models.CharField(max_length=255,null=True,blank=True,db_index=True)
     ip_address = models.CharField(max_length=255,null=True,blank=True,db_index=True)
+    datetime=models.DateTimeField(null=True,default=timezone.now)
+    def __str__(self):
+        return '{0}'.format(self.transaction_id)

@@ -1,0 +1,265 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block home %}
+<style>
+    .right{
+        text-align: right;
+    }
+  
+</style>
+
+<div class="container-fluid pt-4 px-4">
+
+    <div class="d-lg-flex d-md-flex justify-content-between">
+        <!-- personal details card start here -->
+        <div>
+            <div class="bg-secondary mb-3 p-5">
+        
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-capitalize">
+                            <p><b>{{client_user.first_name}}</b></p>
+                        </h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p><b>Reg.Date</b>&nbsp;<span>-</span>&nbsp;</span><b>{{client_user.added_on}}</b></span></p>
+                    </div>
+                   
+                </div>
+                <div class="col-12">
+                    <p><b>Status</b>&nbsp;<span>-</span>&nbsp;</span><b>Active</b></span></p>
+                </div>
+        
+                <div class="row">
+                    <div class="col-lg-1 col-md-1">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="col-lg-11 col-md-11">
+                        <p>{{client_user.email}}</p>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col-lg-1 col-md-1">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="col-lg-11 col-md-11">
+                        <p>+91 {{client_user.mobile_no}}</p>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="col-lg-1 col-md-1">
+                        <i class="fa-solid fa-earth-americas"></i>
+                    </div>
+                    <div class="col-lg-11 col-md-11">
+                        <p>{{client_user.country}}
+                    </div>
+                </div>
+                 
+        
+          </div> 
+        </div>
+        <!-- personal details card end here -->
+
+        <!-- Address card start here -->
+          <div>
+            <div class="bg-secondary p-5">
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-capitalize">
+                            <p><b>Address</b><hr></p>
+                        </h6>
+                    </div>
+                </div>
+            
+             
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>CITY</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">{{client_user.city}}</p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>STATE</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">{{client_user.state}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>PINCODE</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">{{client_user.pincode}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>Address</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">{{client_user.address}}</p>
+                    </div>
+                </div>
+            
+            </div>
+          </div>      
+        <!-- address card end here -->
+
+         <!-- verification start here -->
+         <div>
+            <div class="bg-secondary p-5">
+                <div class="row">
+                    <div class="col-12">
+                        <h6 class="text-capitalize">
+                            <p><b>Verification</b><hr></p>
+                        </h6>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <p><b>Email Verification</b></p>
+                    </div>
+                    <div class="col-lg-9 col-md-9">
+                        <p class="right"><b>{% if client_user.email_status == True %}
+                          Yes {%else %}       No                    
+                        {% endif %}</b></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>Mobile No Verification</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">{% if client_user.mobile_status == True %}
+                            Yes {%else %}       No                    
+                          {% endif %}</p>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>ID Proof Verification</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">XXXX</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <p>Address Proof Verification</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <p class="right">XXXX</p>
+                    </div>
+                </div>
+             
+          
+              </div>
+         </div>
+
+    <!-- verification end here -->
+
+
+
+
+
+    </div>
+
+
+</div>
+
+<br>
+
+<div class="container-fluid pt-4 px-4">
+ <div class="d-lg-flex d-md-flex justify-content-between">
+    <!-- trade account design start here -->
+    <div>
+        <div class="bg-secondary mx-0 p-3">
+            <h6>Trade Accounts<hr>
+            </h6>
+    
+            <div class="form-group mb-3">
+                <div class="label">Demo Account</div>
+                <input type="number" class="form-control" value="4" name="demo_accounts">
+            </div>
+    
+            <div class="form-group mb-3">
+                <div class="label">Live Account</div>
+                <input type="number" class="form-control" value="4" name="live_accounts">
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-block w-100" value="Submit">
+            </div>
+    
+    </div>
+    </div>
+    <!-- trade account design end here -->
+
+    <!-- Id proof upload design start here -->
+    <div>
+    <div class="bg-secondary mx-0 p-3">
+        <h6>ID Proof Upload
+            <hr>
+        </h6>
+    
+        <div class="form-group mb-3">
+            <select class="form-control" name="document_type">
+            <option>Select Documet Type</option>
+           </select>
+           
+        </div>
+        <div class="form-group mb-3">
+            <input type="file" class="form-control" name="id_proof" id="id_proof">
+        </div>
+    
+        <div class="form-group mb-3">
+            <input type="submit" class="btn btn-primary mt-3 btn-block w-100" value="Submit">
+        </div>
+    
+    </div>
+</div>
+  <!-- Id proof upload design end here -->
+
+  <!-- Address proof upload design start here -->
+
+  <div class="bg-secondary mx-0 p-3">
+    <h6>Address Proof Upload
+
+        <hr>
+    </h6>
+
+    <div class="form-group mb-3">
+       <select class="form-control" name="document_type">
+        <option>Select Documet Type</option>
+       </select>
+       
+    </div>
+    <div class="form-group mb-4">
+        <input type="file" class="form-control" name="address_proof" id="id_proof">
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary btn-block w-100" value="Submit">
+    </div>
+
+</div>
+
+    <!-- Address proof upload design end here -->
+
+ </div>
+
+</div>        
+
+
+{% endblock %}
+
