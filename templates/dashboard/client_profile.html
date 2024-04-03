@@ -211,21 +211,30 @@
         <h6>ID Proof Upload
             <hr>
         </h6>
-    
+        {% for message in messages %}
+        <div class="alert alert-success mt-2" role="alert">
+         {{message}}
+       </div>
+       {% endfor %}
+     <form action="{% url 'client_update' client_user.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="form-group mb-3">
-            <select class="form-control" name="document_type">
-            <option>Select Documet Type</option>
-           </select>
+            <select class="form-control" name="document_type" id="document_type" required>
+                <option>Passport</option>
+                <option>Driving Licence</option>
+                <option>Adhar Card</option>
+                <option>Other</option>
+            </select>
            
         </div>
         <div class="form-group mb-3">
-            <input type="file" class="form-control" name="id_proof" id="id_proof">
+            <input type="file" class="form-control" name="img" id="id_proof">
         </div>
     
         <div class="form-group mb-3">
             <input type="submit" class="btn btn-primary mt-3 btn-block w-100" value="Submit">
         </div>
-    
+    </form>
     </div>
 </div>
   <!-- Id proof upload design end here -->
@@ -237,11 +246,20 @@
 
         <hr>
     </h6>
-
+    {% if error is not None %}
+    <div class="alert alert-success mt-2" role="alert">
+     {{error}}
+   </div>
+   {% endif %}
+<form action="{% url 'client_updates' client_user.id %}" method="post">
+  {% csrf_token %}
     <div class="form-group mb-3">
-       <select class="form-control" name="document_type">
-        <option>Select Documet Type</option>
-       </select>
+        <select class="form-control" name="identitytype" id="document_type" required>
+        <option>Bank Statement</option>
+        <option>Utility Bill</option>
+        <option>Adhar Card</option>
+        <option>Other</option>
+    </select>
        
     </div>
     <div class="form-group mb-4">
@@ -251,7 +269,7 @@
     <div class="form-group">
         <input type="submit" class="btn btn-primary btn-block w-100" value="Submit">
     </div>
-
+   </form>
 </div>
 
     <!-- Address proof upload design end here -->

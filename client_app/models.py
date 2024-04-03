@@ -38,7 +38,7 @@ class Client_Register(BaseModel):
     address=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     user_wallet=models.FloatField(null=True,blank=True,db_index=True)
     def __str__(self):
-        return self.username
+        return str(self.username)
 
 class LiveAccount(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,db_index=True)
