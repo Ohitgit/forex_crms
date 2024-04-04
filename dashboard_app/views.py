@@ -78,3 +78,16 @@ class ClientUpadteDoucment2(View):
             
             messages.success(request, 'Doucment Upload Updated..')
             return redirect('client_profile',id )
+
+
+
+class Deposit_finance(View):
+    template_name="dashboard/deposit_finance.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+        
+
+class Withdraw_finance(View):
+    template_name="dashboard/withdraw_finance.html"
+    def get(self, request):
+        return render(request,self.template_name)

@@ -56,11 +56,18 @@
             <div class="mb-3">
                 <textarea placeholder="Comments"  name="comment" class="form-control bg-white" required></textarea>
              </div>
-
-             <div class="mb-3">
+             <div class="mb-3 ">
+              <input type="text" name="number" placeholder="Enter Otp"  class="form-control bg-white col-lg-4 col-md-4" id="otp" style="display:none;" required>
+              <a type="button" class="btn btn-sm btn-info w-100 btn-block" id="requestotp"> Request Otp</a>
+           </div>
+           <div class=" mt-3" style="display:none" id="otps">
+            <input type="button" class="btn btn-primary w-100 btn-block" id="otpverify" value="Otpverify">
+         </div>
+         <small id="otp_error" class="text-danger"></small>
+             <div class=" mt-3">
                 <input type="submit" class="btn btn-primary w-100 btn-block" id="submitBtn" value="Submit">
              </div>
-
+           
         </div>
 
     </div>
@@ -92,7 +99,7 @@
   
 </div>  
 </form>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('myForm');
@@ -122,5 +129,80 @@
       checkFields();
     });
   </script>
+
+
+<script>
+
+$("#requestotp").click(function (e) {
+           //alert('okk')
+           token = $('input[name=csrfmiddlewaretoken]').val()
+          
+            $.ajax({
+                url: '{% url "deposit_otp" %}',  // Replace with your URL
+                type: 'POST',
+                data:{
+                  csrfmiddlewaretoken: token,
+                },
+                
+                success: function (data) {
+                  
+                   if(data)
+                   {
+                   
+                   
+                    $('#requestotp').hide()
+                    $('#otp').show()
+                    $('#otps').show()
+
+                   }
+                   else{
+                    $('#otpsuccess').text(data.error)
+                   }
+                
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+    
+        $("#otpverify").click(function (e) {
+           //alert('okk')
+
+           var otp =$('#otp').val()
+           token = $('input[name=csrfmiddlewaretoken]').val()
+          
+            $.ajax({
+                url: '{% url "deposit_otp_verfiy" %}',  // Replace with your URL
+                type: 'POST',
+                data:{
+                  otp:otp,
+                  csrfmiddlewaretoken: token,
+                },
+                
+                success: function (data) {
+                  
+                   if(data.msg)
+                   {
+                   
+                  $('#otp_error').text(data.msg)
+                   $('#otps').hide()
+
+                   }
+                   if(data.msg1)
+                   {
+                   
+                    $('#otp_error').text(data.msg1)
+                   
+
+                   }
+                
+                },
+                error: function (error) {
+                    console.log('Error:', error);
+                }
+            });
+        });
+</script>
 
 {% endblock %}

@@ -74,7 +74,7 @@ if email_setting_instance:
     settings.EMAIL_BACKEND = email_setting_instance.EMAIL_BACKEND
     settings.EMAIL_USE_TLS = email_setting_instance.EMAIL_USE_TLS
     settings.EMAIL_HOST = email_setting_instance.EMAIL_HOST
-    settings.EMAIL_PORT = email_setting_instance.EMAIL_PORT
+    settings.EMAIL_PORT = int(email_setting_instance.EMAIL_PORT)
     settings.EMAIL_HOST_USER = email_setting_instance.EMAIL_HOST_USER
     settings.EMAIL_HOST_PASSWORD = email_setting_instance.EMAIL_HOST_PASSWORD    
 

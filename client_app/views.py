@@ -412,9 +412,12 @@ class deposit(View):
         recipet=request.FILES.get('file')
         comment=request.POST.get('comment')
         user_amount=Client_Register.objects.get(user=request.user)
-        
-        user_amount.user_wallet+=amount
-        user_amount.save()
+        if amount > 0:
+          user_amount.user_wallet+=amount
+          user_amount.save()
+        else:
+              messages.success(request, 'insfufision balance ..')
+              return render(request,self.template_name,self.context) 
         UserDeposits.objects.create(user=request.user,action_choice=trade_account,amount=amount,deposit_from=deposit_type,recipet=recipet,comment=comment,transaction_ID=genrate_transcationid(),ip_address=ip)
         messages.success(request, 'Deposit Inserted Successfully...')
         return render(request,self.template_name,self.context) 
@@ -602,3 +605,28 @@ class Email_Otp(View):
                 return JsonResponse({'msg1':"otp invalid otp"})
             
 
+
+
+
+
+class DepositOtp(View):
+       def post(self,request):
+        user=User.objects.get(username=request.user)
+        if request.method == 'POST':
+            otp = random.randint(100000, 999999)
+            request.session['otp1']=otp
+            print('otp',otp)
+            Util.depositotp(request,user,otp)
+            return JsonResponse({'msg':'otp request send'})
+
+
+class DepositOtpverfiy(View):
+       def post(self,request):
+       
+        if request.method == 'POST':
+            otp1 =request.session.get('otp1')
+            otp=request.POST.get('otp')
+            if int(otp1) == int(otp):
+             return JsonResponse({'msg':'otp verfiy'})
+            else:
+                return JsonResponse({'msg1':'otp not verfiy'})

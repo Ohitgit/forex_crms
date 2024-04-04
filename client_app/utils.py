@@ -95,31 +95,22 @@ class Util:
 
 
       
+   
+
     @staticmethod
-    def orderpurchesemail(request,orders):
-        mail_from = conf_settings.EMAIL_HOST_USER
-        mail_to = orders.user
-        allorders=order.objects.filter(order_id=orders.order_id)
-    
-        
-        profile=Profile.objects.filter(order_id=orders).first()
-      
-        total_amount=sum(i.total_price for i in allorders)
-        amount_gst=total_amount*18/100
-        amount=total_amount+amount_gst
-        context_data = {
+    def depositotp(request,user,otp):
+         
+         mail_from = conf_settings.EMAIL_HOST_USER
+         mail_to = user
+         context_data = {
         'mail_from':mail_from,
         'mail_to': mail_to,
-        'orders':orders,
-        'allorders':allorders,
-        'amount':amount,
-        'profile':profile
-         
-        }
-        text_content = render_to_string('{0}/templates/userdashboard/orderemail.html'.format(conf_settings.BASE_DIR), context=context_data)
-        email = EmailMultiAlternatives("order purchase confirmation ", text_content, conf_settings.EMAIL_HOST_USER, [mail_to])
-        email.attach_alternative(text_content, 'text/html')
-        EmailThread(email).start()
+         'otp':otp,
+          }
+         text_content = render_to_string('{0}/templates/client/email/otp_mail.html'.format(conf_settings.BASE_DIR), context=context_data)
+         email = EmailMultiAlternatives("Email Verification ", text_content, conf_settings.EMAIL_HOST_USER, [mail_to])
+         email.attach_alternative(text_content, 'text/html')
+         EmailThread(email).start()
 
        
 
