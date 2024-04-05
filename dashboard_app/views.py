@@ -83,11 +83,50 @@ class ClientUpadteDoucment2(View):
 
 class Deposit_finance(View):
     template_name="dashboard/deposit_finance.html"
+
     def get(self, request):
-        return render(request,self.template_name) 
+        deposit=UserDeposits.objects.filter(status=False)
+        context={'deposit':deposit}
+        return render(request,self.template_name,context) 
         
 
 class Withdraw_finance(View):
     template_name="dashboard/withdraw_finance.html"
     def get(self, request):
         return render(request,self.template_name)
+
+
+
+class Deposit_History(View):
+    template_name="dashboard/deposit_history.html"
+    def get(self, request):
+        deposit=UserDeposits.objects.filter(status=True)
+        context={'deposit':deposit}
+        return render(request,self.template_name,context)
+
+
+class Deposit_Reject(View):
+   
+    def post(self, request,id):
+        if request.method =="POST":
+           remarks=request.POST.get('remarks')
+           wallet=UserDeposits.objects.get(id=id)
+           wallet.status=True
+           wallet.reject=remarks
+           wallet.save()
+        return redirect('deposit_finance')
+
+
+
+class Deposit_Wallet(View):
+   
+    def post(self, request,id):
+        if request.method =="POST":
+           wallet=UserDeposits.objects.get(id=id)
+           client=Client_Register.objects.get(user=wallet.user)
+           client.user_wallet+=wallet.amount
+           client.save()
+           wallet.status=True
+           wallet.save()
+        return redirect('deposit_finance')
+          

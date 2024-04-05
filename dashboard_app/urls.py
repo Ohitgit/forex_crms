@@ -13,4 +13,7 @@ urlpatterns = [
     path('client_updates/<int:id>',ClientUpadteDoucment2.as_view(),name="client_updates"),
     path('deposit-finance',Deposit_finance.as_view() ,name="deposit_finance"),
     path('withdraw-finance',Withdraw_finance.as_view() ,name="withdraw_finance"),
+    path('deposit_reject/<int:id>',Deposit_Reject.as_view(),name="Deposit_Reject"),
+    path('deposit_wallet/<int:id>',Deposit_Wallet.as_view(),name="Deposit_Wallet"),
+    path('deposit-history',Deposit_History.as_view(),name="Deposit_History")
 ]

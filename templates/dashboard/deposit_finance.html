@@ -2,97 +2,134 @@
 {% load static %}
 {% block home %}
 <div class="container-fluid  pt-4 px-4  mb-5">
-   
-
-    <div class="col-12">
-        <div class="bg-secondary rounded h-100 p-4">
-            <h6 class="mb-4">Deposit Finance</h6>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr class="text-center">
-                            <th scope="col">Date</th>
-
-                            <th scope="col">Tr.ID</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Payment Method</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Currency</th>
-                            <th scope="col">REF No.</th>
-                            <th scope="col">Tr.IP</th>
-                            <th scope="col">Tr. DOC</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
 
 
+  <div class="col-12">
+    <div class="bg-secondary rounded h-100 p-4">
+      <h6 class="mb-4">Deposit Finance</h6>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">Date</th>
+
+              <th scope="col">Tr.ID</th>
+              <th scope="col">Date</th>
+              <th scope="col">Username</th>
+              <th scope="col">Email</th>
+              <th scope="col">Payment Method</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Currency</th>
+              <th scope="col">REF No.</th>
+              <th scope="col">Tr.IP</th>
+              <th scope="col">Tr. DOC</th>
+              <th scope="col">Status</th>
+              <th scope="col">Action</th>
 
 
 
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <th scope="row">1</th>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
-                                    <a  class="btn btn-warning btn-sm"> <b>Pending</b></a>
-                                    <a  class="btn btn-success btn-sm"> <b>Success</b></a>
-                                    <a  class="btn btn-danger btn-sm"> <b>Rejected</b></a>
 
-                                  </div>
-                         </td>
-                            <td>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
-                                    <a href="" class="btn btn-info btn-sm"> <b>Wallet</b></a>
-                                    <a href="" class="btn btn-success btn-sm"> <b>Account</b></a>
 
-                                    <a href="" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"> <b> Reject</b></a>
-                                  </div>
-                         </td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in deposit %}
 
-                        </tr>
 
-                        </tr>
-                      
-                    
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div> 
+            <tr class="text-center">
+              <th scope="row">{{x.id}}</th>
+              <td>{{x.transaction_ID }}</td>
+              <td>{{x.added_on}}</td>
+              <td>{{x.user.username}}</td>
+              <td>{{x.user.email}}</td>
+              <td>{{x.action_choice}}</td>
+              <td>{{x.amount}}</td>
+              <td>{{x.currency}}</td>
+              <td>{{x.reference_no}}</td>
+              <td>{{x.ip_address}}</td>
+              <td><img src="{{x.recipet.url}}" alt="" width="80%"></td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                  {% if x.status == False %}
+                  <a class="btn btn-warning btn-sm"> <b>Pending</b></a>
+                  <a class="btn btn-danger btn-sm"> <b>Rejected</b></a>
+                  {% else %}
+                  <a class="btn btn-success btn-sm"> <b>Success</b></a>
+                  {% endif %}
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Reason For Cancellation</h1>
+                
+                </div>
+                
+              </td>
+              <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                  <form action="{% url 'Deposit_Wallet' x.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-info btn-sm"> <b>Wallet</b></button>
+                  </form>
+                  <a href="" class="btn btn-success btn-sm"> <b>Account</b></a>
 
-          <div class="col-12 mb-3">
-            <textarea rows="3" class="form-control bg-white" name="remarks" placeholder="Please Enter..........."></textarea>
-          </div>
-          <div class="col-12 mb-3">
-            <input type="submit" class="btn btn-success w-100 btn-block" value="Submit">
-          </div>
-        </div>
-    
+                  <a  class="btn btn-primary btn-sm" onclick="modify_{{ x.id }}()" data-bs-toggle="modal" data-bs-target="#exampleModal" id="rejects" > <b>
+                      Reject</b></a>
+                </div>
+              </td>
+
+            </tr>
+            {% endfor %}
+            </tr>
+
+
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+      <form id="modify_form" method="POST" >
+        {% csrf_token %}
+        
+      <div class="modal-body">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Reason For Cancellation</h1>
+
+        <div class="col-12 mb-3">
+          <textarea rows="3" class="form-control bg-white" id="remarks"  name="remarks"
+            placeholder="Please Enter..........." required></textarea>
+          
+        </div>
+        <div class="col-12 mb-3">
+          <input type="submit" class="btn btn-success w-100 btn-block"   id="reject" value="Submit">
+        </div>
+      </div>
+    </form>
+  
+
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+  {% for serviced in deposit %}
+      
+  
+      function modify_{{ serviced.id }} (){
+          
+        
+          
+  $("#modify_form").attr("action", "{% url 'Deposit_Reject' serviced.id %}")
+      
+         
+          
+      }
+  {% endfor %}
+</script>
+
 {% endblock %}

@@ -411,15 +411,16 @@ class deposit(View):
         deposit_type=request.POST.get('deposit_type')
         recipet=request.FILES.get('file')
         comment=request.POST.get('comment')
-        user_amount=Client_Register.objects.get(user=request.user)
+       
         if amount > 0:
-          user_amount.user_wallet+=amount
-          user_amount.save()
+        #   user_amount.user_wallet+=amount
+        #   user_amount.save()
+          UserDeposits.objects.create(user=request.user,action_choice=trade_account,amount=amount,deposit_from=deposit_type,recipet=recipet,comment=comment,transaction_ID=genrate_transcationid(),ip_address=ip)
+          messages.success(request, 'Deposit Inserted Successfully...')
         else:
               messages.success(request, 'insfufision balance ..')
               return render(request,self.template_name,self.context) 
-        UserDeposits.objects.create(user=request.user,action_choice=trade_account,amount=amount,deposit_from=deposit_type,recipet=recipet,comment=comment,transaction_ID=genrate_transcationid(),ip_address=ip)
-        messages.success(request, 'Deposit Inserted Successfully...')
+        
         return render(request,self.template_name,self.context) 
     
 class withdraw(View):

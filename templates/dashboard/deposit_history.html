@@ -1,0 +1,83 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block home %}
+<div class="container-fluid  pt-4 px-4  mb-5">
+   
+
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Deposit Finance</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">Date</th>
+
+                            <th scope="col">Tr.ID</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Payment Method</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Currency</th>
+                            <th scope="col">Remarks</th>
+                            <th scope="col">REF No.</th>
+                            <th scope="col">Tr.IP</th>
+                            <th scope="col">Tr. DOC</th>
+                            <th scope="col">Status</th>
+
+
+
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in deposit %}
+            
+            
+                        <tr class="text-center">
+                          <th scope="row">{{x.id}}</th>
+                          <td>{{x.transaction_ID }}</td>
+                          <td>{{x.added_on}}</td>
+                          <td>{{x.user.username}}</td>
+                          <td>{{x.user.email}}</td>
+                          <td>{{x.action_choice}}</td>
+                          <td>{{x.amount}}</td>
+                          <td>{{x.currency}}</td>
+                          <td>{{x.reject}}</td>
+                          <td>{{x.reference_no}}</td>
+                          <td>{{x.ip_address}}</td>
+                          <td><img src="{{x.recipet.url}}" alt="" width="80%"></td>
+                          <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                              {% if x.status == False %}
+                              <a class="btn btn-warning btn-sm"> <b>Pending</b></a>
+                              
+                              {% else %}
+                              <a class="btn btn-success btn-sm"> <b>Success</b></a>
+                              <a class="btn btn-danger btn-sm"> <b>Rejected</b></a>
+                              {% endif %}
+            
+                            
+                            </div>
+                            
+                          </td>
+                          <td>
+                          
+                          </td>
+            
+                        </tr>
+                        {% endfor %}
+                        </tr>
+            
+            
+                      </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 
+
+{% endblock %}

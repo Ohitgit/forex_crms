@@ -98,6 +98,7 @@ class UserDeposits(BaseModel):
     deposit_from = models.TextField(null=True, blank=True,db_index=True)
     comment = models.TextField(null=True, blank=True,db_index=True)
     reject = models.TextField(null=True, blank=True,db_index=True)
+    reference_no = models.CharField(max_length=120,null=True, blank=True,db_index=True)
     status=models.BooleanField(default=False,db_index=True)
     def __str__(self):
         return '{0}'.format(self.user)
