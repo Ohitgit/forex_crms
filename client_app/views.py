@@ -490,7 +490,9 @@ class internal_transfer_report(View):
 class deposit_report(View):
     template_name="clientapp/deposit_report.html"
     def get(self, request):
-        return render(request,self.template_name) 
+        deposit=UserDeposits.objects.all()
+        context={'deposit':deposit}
+        return render(request,self.template_name,context) 
 
 class withdraw_report(View):
     template_name="clientapp/withdraw_report.html"

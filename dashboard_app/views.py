@@ -81,6 +81,24 @@ class ClientUpadteDoucment2(View):
 
 
 
+
+class TradeAccountupdate(View):
+   
+    def post(self, request,id):
+
+        profile=Client_Register.objects.get(id=id)
+       
+        if request.method =="POST":
+            profile.live_account_limit=request.POST.get('demo_accounts')  
+                 
+            profile.demo_account_limit=request.POST.get('live_accounts') 
+           
+            profile.save()
+            
+            messages.success(request, 'Trade Account Update..')
+            return redirect('client_profile',id )
+
+
 class Deposit_finance(View):
     template_name="dashboard/deposit_finance.html"
 

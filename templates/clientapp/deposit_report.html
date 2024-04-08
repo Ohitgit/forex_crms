@@ -83,18 +83,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for x in deposit %}
+                          
+                       
                         <tr class="text-center">
-                            <th scope="row">xxxx</th>
+                            <th scope="row">{{x.id}}</th>
+                            <td>{{x.added_on}}</td>
+                            <td>{{x.transaction_ID}}</td>
+                            <td>{{x.amount}}</td>
+                            <td>{{x.deposit_from}}</td>
                             <td>xxxxx</td>
                             <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-                            <td>xxxxx</td>
-
+                            {% if x.status == True %}
+                            <td><button class="btn btn-success">Success</button> </td>
+                             {%else%}
+                             <td><button class="btn btn-danger">Pending</button> </td>
+                            {% endif %}
+                            
                         </tr>
-                      
+                        {% endfor %}
                     
                     </tbody>
                 </table>
