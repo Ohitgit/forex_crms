@@ -66,13 +66,16 @@ class UploadDocument(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
     documenttype=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     identitytype=models.CharField(null=True,blank=True,db_index=True,max_length=100)
-    img=models.FileField(null=True,db_index=True,upload_to='img/')
-    img2=models.FileField(null=True,db_index=True,upload_to='img2/')
+    img=models.FileField(blank=True,null=True,db_index=True,upload_to='img/')
+    img2=models.FileField(blank=True,null=True,db_index=True,upload_to='img2/')
     datetime=models.DateTimeField(null=True,default=timezone.now)
 
     
 
 
+class Usdt(BaseModel):
+    usdt = models.CharField(null=True,blank=True,db_index=True,max_length=400)
+    datetime=models.DateTimeField(null=True,default=timezone.now)
 
 class UserDeposits(BaseModel):
    
@@ -81,6 +84,12 @@ class UserDeposits(BaseModel):
     wallet_choice = (
         ("wallet", 'Wallet'),
         ("live", 'Live'),
+      
+    )
+    deposit_choice = (
+        ("usdt", 'USDT'),
+        ("btc", 'BTC'),
+        ("bank", 'BANK'),
       
     )
     user = models.ForeignKey(User, on_delete = models.CASCADE, null = True,
@@ -94,7 +103,9 @@ class UserDeposits(BaseModel):
     amount = models.FloatField(default=0)
     added_on = models.DateTimeField(auto_now_add=True,db_index=True)
     updated_on = models.DateTimeField(auto_now=True,db_index=True)
-    action_choice = models.CharField(default=0, choices=wallet_choice,db_index=True )
+    action_choice = models.CharField(default="wallet", choices=wallet_choice,db_index=True )
+    deposit_choice = models.CharField(default='bank', choices=deposit_choice,db_index=True )
+    usdt_address = models.CharField(max_length=500,null=True, blank=True,db_index=True)
     deposit_from = models.TextField(null=True, blank=True,db_index=True)
     comment = models.TextField(null=True, blank=True,db_index=True)
     reject = models.TextField(null=True, blank=True,db_index=True)

@@ -42,12 +42,24 @@
 
             </div>
             <div class="col-12 mb-3">
-                <select class="form-control" name="deposit_type" required>
-                    <option>Bank Deposit</option>
-                        <option>USDT Deposit</option>
+                <select class="form-control" name="deposit_type" id="currencySelect" required>
+                    <option value="Bank Deposit">Bank Deposit</option>
+                    <option value="USDTDeposit">USDT Deposit</option>
 
                 </select>
             </div>
+
+            <div class="col-12 mb-3">
+              <select class="form-control" name="usdt_type" id="input-box" required style="display:none">
+                     {% for x in  deposit %}
+                       
+                     
+                      <option value="{{x.usdt}}">{{x.usdt}}</option>
+
+                      {% endfor %}
+
+              </select>
+          </div>
             <div class="col-12 mb-3">
                 <input type="file" name="file" class="form-control bg-white" placeholder="Amount in USD" required>
                 <small class="text-info">  supported file type: .jpeg, .png</small>
@@ -203,6 +215,24 @@ $("#requestotp").click(function (e) {
                 }
             });
         });
+
+
+
+
+
+$(document).ready(function(){
+    $('#currencySelect').change(function(){
+        var selectedValue = $(this).val();
+        //alert(selectedValue)
+        if(selectedValue === 'USDTDeposit') {
+            $('#input-box').show();
+        } else {
+           
+        }
+    });
+});
+
+
 </script>
 
 {% endblock %}

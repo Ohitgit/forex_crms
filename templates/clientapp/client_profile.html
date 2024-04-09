@@ -410,7 +410,11 @@
                                 <th scope="row">{{upload_document.id}}</th>
                                 <td>{{upload_document.datetime}}</td>
                                 <td>{{upload_document.documenttype}}</td>
+                                 {% if upload_document.img is none  %}
+                                   
+                                {%else%}
                                 <td><img src="{{upload_document.img.url}}" alt="" width="50%"></td>
+                                {% endif %}
                                 <td>xxxxxx</td>
                                 <td>xxxxxx</td>
                                 

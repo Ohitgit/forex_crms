@@ -20,14 +20,14 @@ from django.contrib import messages
 from dashboard_app.models import *
 
 # Create your views here.
-
-
 def forex_manager_ip():
-    forex=Forex_Manager_Credential.objects.first()
-    ip=forex.ip
-    login=forex.login
-    password=forex.password
-    return ip,login,password
+     pass
+# def forex_manager_ip():
+#     forex=None
+#     ip=forex.ip
+#     login=forex.login
+#     password=forex.password
+#     return ip,login,password
 
 def home(request):
     wallet_amount=Client_Register.objects.get(user=request.user)
@@ -173,7 +173,7 @@ class Open_live_account(View):
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
     demo=LiveAccount.objects.filter(group="pro/micro")
-    ip,login,password=forex_manager_ip()
+    # ip,login,password=forex_manager_ip()
     context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     template_name="clientapp/open_live_account.html"
     def get(self, request):
@@ -224,7 +224,7 @@ class Open_demo_account(View):
     template_name="clientapp/open_demo_account.html"
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
-    ip,login,password=forex_manager_ip()
+    # ip,login,password=forex_manager_ip()
     demo=LiveAccount.objects.filter(group_name="demoaccount")
     context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     def get(self, request):
@@ -400,7 +400,9 @@ class deposit(View):
     template_name="clientapp/deposit.html"
     live=LiveAccount.objects.filter(group_name='liveaccount')
     bank=Bank_Detail.objects.first()
-    context={'live':live,'bank':bank}
+    deposit=Usdt.objects.all()
+       
+    context={'live':live,'bank':bank,'deposit':deposit}
     def get(self, request):
         return render(request,self.template_name,self.context) 
     def post(self,request):
@@ -410,12 +412,11 @@ class deposit(View):
         amount=float(request.POST.get('amount'))
         deposit_type=request.POST.get('deposit_type')
         recipet=request.FILES.get('file')
+        usdt_address=request.POST.get('usdt_type')
         comment=request.POST.get('comment')
        
         if amount > 0:
-        #   user_amount.user_wallet+=amount
-        #   user_amount.save()
-          UserDeposits.objects.create(user=request.user,action_choice=trade_account,amount=amount,deposit_from=deposit_type,recipet=recipet,comment=comment,transaction_ID=genrate_transcationid(),ip_address=ip)
+          UserDeposits.objects.create(usdt_address=usdt_address,user=request.user,action_choice=trade_account,amount=amount,deposit_from=deposit_type,recipet=recipet,comment=comment,transaction_ID=genrate_transcationid(),ip_address=ip)
           messages.success(request, 'Deposit Inserted Successfully...')
         else:
               messages.success(request, 'insfufision balance ..')
@@ -431,7 +432,7 @@ class withdraw(View):
 class internal_transfer(View):
     
     demo=LiveAccount.objects.filter(group_name="liveaccount")
-    ip,login,password=forex_manager_ip()
+    # ip,login,password=forex_manager_ip()
     internal_transfer=Internal_Transfer.objects.all()
     
     context={'demo':demo,'internal_transfer':internal_transfer}
@@ -442,7 +443,7 @@ class internal_transfer(View):
         return render(request,self.template_name,self.context) 
     def post(self,request):
         user_wallets=Client_Register.objects.get(user=request.user)
-        ip,login,password=forex_manager_ip()
+        # ip,login,password=forex_manager_ip()
         if request.method == "POST":
           transfer_from=request.POST.get('transfer_from')
           transfer_to=request.POST.get('transfer_to')
