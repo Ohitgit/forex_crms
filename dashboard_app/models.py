@@ -85,12 +85,12 @@ class Add_Platform_Link(BaseModel):
        def __str__(self):
           return self.link
        
-# class Forex_Manager_Credential(BaseModel):
-#      ip=models.CharField(max_length=200,null=True,blank=True,db_index=True)
-#      login=models.CharField(max_length=200,null=True,blank=True,db_index=True)
-#      password=models.CharField(max_length=200,null=True,blank=True,db_index=True)
-#      def __str__(self):
-#           return self.ip
+class Forex_Manager_Credential(BaseModel):
+     ip=models.CharField(max_length=200,null=True,blank=True,db_index=True)
+     login=models.CharField(max_length=200,null=True,blank=True,db_index=True)
+     password=models.CharField(max_length=200,null=True,blank=True,db_index=True)
+     def __str__(self):
+          return self.ip
 
 
 

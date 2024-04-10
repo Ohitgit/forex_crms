@@ -81,16 +81,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for x in  internal %}
+                          
+                        
                         <tr class="text-center">
-                            <th scope="row">1</th>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>jhon@email.com</td>
-                            <td>USA</td>
-                            <td>123</td>
+                            <th scope="row">{{x.id}}</th>
+                            <td>{{x.datetime}}</td>
+                            <td>{{x.transaction_id}}</td>
+                           
+                            <td>{{x.transfer_from}}</td>
+                            <td>{{x.transfer_to}}</td>
+                            <td>{{x.amount}}</td>
                             <td>Member</td>
                         </tr>
-                      
+                        {% endfor %}
                     
                     </tbody>
                 </table>

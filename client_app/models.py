@@ -75,6 +75,7 @@ class UploadDocument(BaseModel):
 
 class Usdt(BaseModel):
     usdt = models.CharField(null=True,blank=True,db_index=True,max_length=400)
+    status=models.BooleanField(default=False,db_index=True)
     datetime=models.DateTimeField(null=True,default=timezone.now)
 
 class UserDeposits(BaseModel):
@@ -111,6 +112,7 @@ class UserDeposits(BaseModel):
     reject = models.TextField(null=True, blank=True,db_index=True)
     reference_no = models.CharField(max_length=120,null=True, blank=True,db_index=True)
     status=models.BooleanField(default=False,db_index=True)
+    
     def __str__(self):
         return '{0}'.format(self.user)
     
@@ -124,3 +126,24 @@ class Internal_Transfer(BaseModel):
     datetime=models.DateTimeField(null=True,default=timezone.now)
     def __str__(self):
         return '{0}'.format(self.transaction_id)
+
+
+    
+class Withdraw(BaseModel):
+   
+    deposit_choice = (
+        ("usdt", 'USDT'),
+        ("bank", 'BANK'),
+      
+    )
+    user = models.ForeignKey(User, on_delete = models.CASCADE, null = True,
+        blank = True,
+        db_index = True)
+    trade_account_number = models.TextField(null=True,blank=True,db_index=True)
+    beneficiary_name = models.CharField(max_length=255,null=True,blank=True,db_index=True)
+    ifsc_code = models.FileField(upload_to='user_upload_document',null=True, blank=True,db_index=True)
+    deposit_choice = models.CharField(default='bank', choices=deposit_choice,db_index=True )
+    account_number = models.CharField(max_length=255,null=True,blank=True,db_index=True)
+    amount = models.FloatField(default=0)
+    added_on = models.DateTimeField(auto_now_add=True,db_index=True)
+    updated_on = models.DateTimeField(auto_now=True,db_index=True)

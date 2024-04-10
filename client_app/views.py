@@ -20,14 +20,13 @@ from django.contrib import messages
 from dashboard_app.models import *
 
 # Create your views here.
+
 def forex_manager_ip():
-     pass
-# def forex_manager_ip():
-#     forex=None
-#     ip=forex.ip
-#     login=forex.login
-#     password=forex.password
-#     return ip,login,password
+    forex=Forex_Manager_Credential.objects.first()
+    ip=forex.ip
+    login=forex.login
+    password=forex.password
+    return ip,login,password
 
 def home(request):
     wallet_amount=Client_Register.objects.get(user=request.user)
@@ -173,7 +172,7 @@ class Open_live_account(View):
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
     demo=LiveAccount.objects.filter(group="pro/micro")
-    # ip,login,password=forex_manager_ip()
+    ip,login,password=forex_manager_ip()
     context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     template_name="clientapp/open_live_account.html"
     def get(self, request):
@@ -224,7 +223,7 @@ class Open_demo_account(View):
     template_name="clientapp/open_demo_account.html"
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
-    # ip,login,password=forex_manager_ip()
+    ip,login,password=forex_manager_ip()
     demo=LiveAccount.objects.filter(group_name="demoaccount")
     context={'forex_group':forex_group,'leverage':leverage,'demo':demo}
     def get(self, request):
@@ -425,14 +424,33 @@ class deposit(View):
         return render(request,self.template_name,self.context) 
     
 class withdraw(View):
+    demo=LiveAccount.objects.filter(group_name="liveaccount")
+    ip,login,password=forex_manager_ip()
+    context={'demo':demo}
     template_name="clientapp/withdraw.html"
     def get(self, request):
-        return render(request,self.template_name) 
+        return render(request,self.template_name,self.context) 
+    def post(self, request):
+        user_wallets=Client_Register.objects.get(user=request.user)
+        if request.method == "POST":
+            trade_account_number=request.POST.get('trade_account_number')
+            amount=request.POST.get('amount')
+            beneficiary_name=request.POST.get('beneficiary_name')
+            ifsc_code=request.POST.get('ifsc_code')
+            account_number=request.POST.get('account_number')
+        if int(user_wallets.user_wallet) >= int(amount):
+            print('okk')
+        else:
+            print('no')
+
+
+        return render(request,self.template_name,self.context) 
+    
 
 class internal_transfer(View):
     
     demo=LiveAccount.objects.filter(group_name="liveaccount")
-    # ip,login,password=forex_manager_ip()
+    ip,login,password=forex_manager_ip()
     internal_transfer=Internal_Transfer.objects.all()
     
     context={'demo':demo,'internal_transfer':internal_transfer}
@@ -443,11 +461,11 @@ class internal_transfer(View):
         return render(request,self.template_name,self.context) 
     def post(self,request):
         user_wallets=Client_Register.objects.get(user=request.user)
-        # ip,login,password=forex_manager_ip()
+        ip,login,password=forex_manager_ip()
         if request.method == "POST":
           transfer_from=request.POST.get('transfer_from')
           transfer_to=request.POST.get('transfer_to')
-          
+          print(transfer_to)
           if  transfer_from ==  transfer_to:
               demo=LiveAccount.objects.filter(group_name="liveaccount")
               internal_transfer=Internal_Transfer.objects.all()
@@ -455,17 +473,32 @@ class internal_transfer(View):
               return render(request,self.template_name,context)
               
 
-          amount=int(request.POST.get('amount'))                                                                                                                                                                                         
-          url = "http://103.138.189.81/api/mt5/depostLiveAccount"
-          headers = {'Content-Type': 'application/json'}
-          data={
-              "ip": ip,
+          amount=int(request.POST.get('amount')) 
+          print(user_wallets.user_wallet)
+          if str(user_wallets.user_wallet) ==  str(transfer_from) :
+             print('okk')                                                                                                                                                                                      
+             url = "http://103.138.189.81/api/mt5/depostLiveAccount"
+             headers = {'Content-Type': 'application/json'}
+             data={
+                "ip": ip,
+                "login": login,
+                "password": password,
+                "account_login":transfer_to,
+                 "amount": amount,
+                "comment": "test deposit"
+              }
+          else:
+             url = "http://103.138.189.81/api/mt5/depostLiveAccount"
+             headers = {'Content-Type': 'application/json'}
+             data={
+                "ip": ip,
                 "login": login,
                 "password": password,
                 "account_login":transfer_from,
                  "amount": amount,
                 "comment": "test deposit"
-          }
+              }
+          
           print('data',data)
           print('url',url)
           response_api = requests.post(url, headers=headers,json=data)
@@ -478,12 +511,14 @@ class internal_transfer(View):
               Internal_Transfer.objects.create(transfer_from=transfer_from,transfer_to=transfer_to, amount= amount, transaction_id=response_data['data']['transaction_id'])
               messages.success(request, 'Internal Transfer Successfully...')
           else:
-               messages.success(request, 'Somewthing Went ...')
+               messages.success(request, 'insufficient balance  ...')
         return render(request,self.template_name,self.context)    
 
 class internal_transfer_report(View):
     demo=LiveAccount.objects.filter(group="pro/micro")
-    context={'demo':demo}
+    internal= Internal_Transfer.objects.all()
+
+    context={'demo':demo,'internal':internal}
     template_name="clientapp/internal_transfer_report.html"
     def get(self, request):
         return render(request,self.template_name,self.context) 
@@ -496,7 +531,7 @@ class deposit_report(View):
         return render(request,self.template_name,context) 
 
 class withdraw_report(View):
-    template_name="clientapp/withdraw_report.html"
+   
     def get(self, request):
         return render(request,self.template_name)     
 

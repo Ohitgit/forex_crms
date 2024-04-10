@@ -22,7 +22,7 @@
             <div class="form-group">
                 <label>Transfer From</label>
                 <select class="form-control" name="transfer_from" id="transfer_from" required>
-                    <option value="{{wallet_amounts}}">Wallet {{wallet_amounts}}&nbsp;(0.00&nbsp;USD)</option>
+                    <option value="{{wallet_amounts}}">Wallet &nbsp;({{wallet_amounts}}&nbsp;USD)</option>
                     {% for x  in demo %}
                       
                     
@@ -34,7 +34,7 @@
         <div class="col-lg-3 col-md-3">
             <label>Transfer To</label>
             <select class="form-control" name="transfer_to" id="transfer_to" required>
-                <option value="{{wallet_amounts}}">Wallet {{wallet_amounts}}&nbsp;(0.00&nbsp;USD)</option>
+                <option value="{{wallet_amounts}}">Wallet &nbsp;({{wallet_amounts}}&nbsp;USD)</option>
                 {% for x  in demo %}
                 <option value="{{x.login}}">{{x.login}}&nbsp;(0.000&nbsp;USD)</option>
                 {% endfor %}
