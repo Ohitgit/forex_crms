@@ -82,11 +82,15 @@
             <!-- bank waithdraw form start here -->
 
         <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
-            <h6>Withdraw In Bank <hr></h6>
+            {% for message in messages %}
+            <div class="alert alert-success mt-2" role="alert">
+              {{message}}
+            </div>
+            {% endfor %}
             <form action="" method="post">
                 {% csrf_token %}
             <div class="col-12 mb-3">
-                <select class="form-control" name="trade_account_number">
+                <select class="form-control" name="trade_account_number" required>
                     <option>Select Withdraw From</option>
                     
                     <option value="{{wallet_amounts}}">Wallet &nbsp;({{wallet_amounts}}&nbsp;USD)</option>
@@ -100,19 +104,19 @@
             </div>
            
             <div class="col-12 mb-3">
-                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD">
+                <input type="text" name="amount" class="form-control bg-white" placeholder="Amount in USD"required>
 
             </div>
         
 
             <div class="mb-3">
-                <input type="text" name="beneficiary_name" class="form-control bg-white" placeholder="Beneficiary name">
+                <input type="text" name="beneficiary_name" class="form-control bg-white" placeholder="Beneficiary name" readonly>
              </div>
              <div class="mb-3">
-                <input type="text" name="ifsc_code" class="form-control bg-white" placeholder="IFSC CODE">
+                <input type="text" name="ifsc_code" class="form-control bg-white" placeholder="IFSC CODE" required>
              </div>
              <div class="mb-3">
-                <input type="number" name="account_number" class="form-control bg-white" placeholder="Account Number">
+                <input type="number" name="account_number" class="form-control bg-white" placeholder="Account Number" required>
              </div>
 
              <div class="mb-3">

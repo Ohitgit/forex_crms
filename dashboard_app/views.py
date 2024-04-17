@@ -147,4 +147,20 @@ class Deposit_Wallet(View):
            wallet.status=True
            wallet.save()
         return redirect('deposit_finance')
-          
+
+
+
+class LiveAccounts(View):
+    client_user=LiveAccount.objects.filter(group="pro/micro")
+    context={'client_user':client_user}
+    template_name="dashboard/liveaccount.html"
+    def get(self, request):
+        return render(request,self.template_name,self.context)
+
+    
+class DemoAccount(View):
+    client_user=LiveAccount.objects.filter(group="pro/micro")
+    context={'client_user':client_user}
+    template_name="dashboard/demoaccount.html"
+    def get(self, request):
+        return render(request,self.template_name,self.context)

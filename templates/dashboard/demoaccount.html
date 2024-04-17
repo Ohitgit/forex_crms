@@ -1,0 +1,62 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block home %}
+<div class="container-fluid  pt-4 px-4  mb-5">
+   
+
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">DemoAccount</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col">#</th>
+
+                            <th scope="col">Account Name</th>
+                            <th scope="col">Account Email</th>
+                            <th scope="col">Created Date</th>
+                            <th scope="col">Login</th>
+                            <th scope="col">Account Type</th>
+                            <th scope="col">Leverage</th>
+                            <th scope="col">Balance</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for x in  client_user %}
+                          
+                        
+                        <tr class="text-center">
+
+                            <th scope="row">{{x.id}}</th>
+                            <td>{{x.user.first_name}} {{x.user.last_name}}</td>
+                            <td>{{x.added_on}}</td>
+                            <td>{{x.email}}</td>
+                            <td>{{x.login}}</td>
+                            <td>{{x.group}}</td>
+                            <td>{{x.leverage}}</td>
+                            <td>Balance</td>
+                            <td>status</td>
+                            <td>
+                                <!-- <div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+                                    <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="View Documents"><i class="fa-solid fa-eye text-white"></i></button>&nbsp;&nbsp; -->
+                                    <a href="{% url 'client_profile' x.id %}" class="btn btn-info"><i class="fa-solid fa-gear text-white"></i>&nbsp; <b> View</b></a>
+                                    <!-- <form action="{% url 'client_delete' x.id %}" method="post">
+                                        {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete Client"></i></button>
+                                </form> -->
+                                </div>
+                         </td>
+
+                        </tr>
+                        {% endfor %}
+                    
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> 
+{% endblock %}

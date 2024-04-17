@@ -400,8 +400,8 @@ class deposit(View):
     live=LiveAccount.objects.filter(group_name='liveaccount')
     bank=Bank_Detail.objects.first()
     deposit=Usdt.objects.all()
-       
-    context={'live':live,'bank':bank,'deposit':deposit}
+    otp_status=Otp_Status.objects.get(otp_status=True,status="deposit")   
+    context={'live':live,'bank':bank,'deposit':deposit,'otp_status':otp_status}
     def get(self, request):
         return render(request,self.template_name,self.context) 
     def post(self,request):
@@ -432,6 +432,7 @@ class withdraw(View):
         return render(request,self.template_name,self.context) 
     def post(self, request):
         user_wallets=Client_Register.objects.get(user=request.user)
+        user_wallets1=Client_Register.objects.get(user=request.user)
         if request.method == "POST":
             trade_account_number=request.POST.get('trade_account_number')
             amount=request.POST.get('amount')
@@ -439,9 +440,14 @@ class withdraw(View):
             ifsc_code=request.POST.get('ifsc_code')
             account_number=request.POST.get('account_number')
         if int(user_wallets.user_wallet) >= int(amount):
-            print('okk')
+            
+            user_wallets1.user_wallet=float(user_wallets.user_wallet)-float(amount)
+            user_wallets1.save()
+            Withdraw.objects.create(trade_account_number=trade_account_number,amount=amount,beneficiary_name=beneficiary_name,ifsc_code=ifsc_code,account_number=account_number,deposit_choice="bank")
+            messages.success(request, 'withdraw submit successfully ..')
         else:
-            print('no')
+            messages.success(request, 'insfufision balance ..')
+            return render(request,self.template_name,self.context)
 
 
         return render(request,self.template_name,self.context) 

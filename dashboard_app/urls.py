@@ -18,5 +18,7 @@ urlpatterns = [
 
     path('deposit_reject/<int:id>',Deposit_Reject.as_view(),name="Deposit_Reject"),
     path('deposit_wallet/<int:id>',Deposit_Wallet.as_view(),name="Deposit_Wallet"),
-    path('deposit-history',Deposit_History.as_view(),name="Deposit_History")
+    path('deposit-history',Deposit_History.as_view(),name="Deposit_History"),
+    path('liveaccount',LiveAccounts.as_view(),name="LiveAccount"),
+    path('demoaccount',DemoAccount.as_view(),name="DemoAccount")
 ]

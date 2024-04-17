@@ -10,7 +10,15 @@ class BaseModel(models.Model):
 
 
 class Otp_Status(BaseModel):
+    status_choice = (
+        ("signup", 'Signup'),
+        ("login", 'Login'),
+        ('deposit','Deposit')
+      
+    )
     otp_status=models.BooleanField(default=False)
+    status = models.CharField(default='bank', choices=status_choice,db_index=True )
+    
 
 class Client_Register(BaseModel):
     
