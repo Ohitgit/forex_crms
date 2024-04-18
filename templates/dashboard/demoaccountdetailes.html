@@ -1,0 +1,334 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block home %}
+<style>
+    .w-10{
+        width: 10%;
+    }
+</style>
+<div class="container-fluid pt-4 px-4">
+    <h6>Trade Account Details
+        <hr>
+    </h6>
+<div class="row">
+   
+
+    <div class="col-lg-4 col-md-4">
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
+            <h6>Account Details <span><i class="fa-solid fa-gear text-primary float-end" data-bs-toggle="modal" data-bs-target="#myModal"></i></span> <hr></h6>
+       
+            <div class="col-12 mb-3">
+               <p>
+                Login
+                    <span class="float-end">{{client_user.login}}</span>
+               </p>
+            </div>
+
+            <div class="col-12 mb-3">
+                <p>
+                    Account Created On
+
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Account Name
+
+                     <span class="float-end">{{client_user.user.username}}</span>
+                </p>
+             </div>
+             <div class="col-12 mb-3">
+                <p>
+                    Account Type
+                     <span class="float-end">{{client_user.group}}</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Account Type
+                     <span class="float-end">xxxx &nbsp;<i class="fa-solid fa-gear text-primary " data-bs-toggle="modal" data-bs-target="#myModalac"></i></span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Leverage
+
+                     <span class="float-end">{{client_user.leverage}}</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Account Currency
+
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Platform
+                  <span class="float-end">xxxx</span>
+                </p>
+             </div>
+             <div class="col-12 mb-3">
+                <p>
+                    Account Status
+
+                  <span class="float-end">xxxx</span>
+                </p>
+             </div>
+     </div>
+
+    </div>
+
+
+
+    <div class="col-lg-4 col-md-4">
+        <div class="row  bg-secondary rounded mx-0 mb-2 p-3">
+            <h6>Account Passwords <span><i class="fa-solid fa-gear text-primary float-end" data-bs-toggle="modal" data-bs-target="#myModalpwd"></i></span> <hr></h6>
+       
+            <div class="col-12 mb-3">
+               <p>
+                Trade Password
+                    <span class="float-end">xxxx</span>
+               </p>
+            </div>
+            <div class="col-12 mb-3">
+                <p>
+                 Invester Password
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+             <div class="col-12 mb-3">
+                <p>
+                 Phone Password
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+        </div>
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
+            <h6>Trade Account Funds
+               <hr></h6>
+       
+            <div class="col-12 mb-3">
+               <p>
+                Balance
+
+                    <span class="float-end">xxxx</span>
+               </p>
+            </div>
+            <div class="col-12 mb-3">
+                <p>
+                 Equity
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+             <div class="col-12 mb-3">
+                <p>
+                 Credit
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+             <div class="col-12 mb-3">
+                <p>
+                 Free Margin
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+
+        </div>
+
+     </div>
+
+
+     <div class="col-lg-4 col-md-4">
+        <div class="row  bg-secondary rounded mx-0 mb-5 p-3">
+            <h6>Account Funds
+                <span></span> <hr></h6>
+       
+            <div class="col-12 mb-3">
+               <p>
+                Total Deposit
+                    <span class="float-end">xxxx</span>
+               </p>
+            </div>
+
+            <div class="col-12 mb-3">
+                <p>
+                    Total Withdraw
+
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Total Internal Transfer IN
+
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+             <div class="col-12 mb-3">
+                <p>
+                    Total Internal Transfer OUT
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Total Credit Deposit
+                     <span class="float-end">xxxx &nbsp;</span>
+                </p>
+             </div>
+
+             <div class="col-12 mb-3">
+                <p>
+                    Total Credit Withdraw
+
+                     <span class="float-end">xxxx</span>
+                </p>
+             </div>
+
+     </div>
+
+    </div>
+  
+</div>
+
+  
+</div>  
+
+
+<!-- trade account details modal start here -->
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Trade Account Details        </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="col-12">
+            <label for="">Edit Trade Account Details
+            </label>
+            <input type="text" class="form-control bg-white" name="account_name" value="">
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info">Update</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+<!-- trade account details modal end here -->
+
+
+
+<!-- Account type modal start here -->
+
+<!-- The Modal -->
+<div class="modal" id="myModalac">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Account Group </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="col-12">
+            <select class="form-control bg-white" name="select">  
+                <option>xxxx</option>    
+            </select>
+
+
+          </div>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info">Update</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+<!-- account type modal end here -->
+
+
+<!-- Account pwd modal start here -->
+
+<!-- The Modal -->
+<div class="modal" id="myModalpwd">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Trade Account Password </h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="col-12 mb-3">
+            <select class="form-control bg-white" name="select">  
+                <option>Select Password Type</option>   
+                <option>Trade Password</option> 
+                <option>Investor Password</option>
+                <option>Phone Password</option>
+
+            </select>
+
+
+          </div>
+          <div class="col-12 mb-3">
+            <input type="password" name="password" value="" placeholder="Enter Password" class="form-control bg-white">
+          </div>
+
+          <div class="col-12 bg-white card p-3">
+            <h6>Your password must:
+            </h6>
+
+            <p> <span><i class="fa-solid fa-check text-success"></i></span> Have min 8 characters
+            </p> <p> <span><i class="fa-solid fa-check text-success"></i></span> 
+            Have both numbers and letters</p>
+
+          </div>
+
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info">Update</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+

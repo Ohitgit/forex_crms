@@ -151,7 +151,7 @@ class Deposit_Wallet(View):
 
 
 class LiveAccounts(View):
-    client_user=LiveAccount.objects.filter(group="pro/micro")
+    client_user=LiveAccount.objects.filter(group_name="liveaccount")
     context={'client_user':client_user}
     template_name="dashboard/liveaccount.html"
     def get(self, request):
@@ -159,8 +159,28 @@ class LiveAccounts(View):
 
     
 class DemoAccount(View):
-    client_user=LiveAccount.objects.filter(group="pro/micro")
+    client_user=LiveAccount.objects.filter(group_name="demoaccount")
     context={'client_user':client_user}
     template_name="dashboard/demoaccount.html"
     def get(self, request):
         return render(request,self.template_name,self.context)
+
+
+
+
+class LiveAccountsDetailes(View):
+   
+    template_name="dashboard/liveaccountdetailes.html"
+    def get(self, request,id):
+        client_user=LiveAccount.objects.get(id=id)
+        context={'client_user':client_user}
+        return render(request,self.template_name,context)
+
+
+class DemoAccountsDetailes(View):
+   
+    template_name="dashboard/demoaccountdetailes.html"
+    def get(self, request,id):
+        client_user=LiveAccount.objects.get(id=id)
+        context={'client_user':client_user}
+        return render(request,self.template_name,context)
