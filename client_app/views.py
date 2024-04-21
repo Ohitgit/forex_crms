@@ -509,7 +509,7 @@ class internal_transfer(View):
           print('url',url)
           response_api = requests.post(url, headers=headers,json=data)
           response_data= response_api.json()
-          print('json1',response_data)
+          print('json1',response_data['status'])
           if response_data['status'] == True and amount > 0 and user_wallets.user_wallet > 0 :
               minusamount=user_wallets.user_wallet-amount
               user_wallets.user_wallet=minusamount

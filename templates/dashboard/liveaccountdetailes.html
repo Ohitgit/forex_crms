@@ -28,7 +28,7 @@
                 <p>
                     Account Created On
 
-                     <span class="float-end">xxxx</span>
+                     <span class="float-end">{{client_user.added_on}}</span>
                 </p>
              </div>
 
@@ -39,17 +39,17 @@
                      <span class="float-end">{{client_user.user.username}}</span>
                 </p>
              </div>
-             <div class="col-12 mb-3">
+             <!-- <div class="col-12 mb-3">
                 <p>
                     Account Type
                      <span class="float-end">{{client_user.group}}</span>
                 </p>
-             </div>
+             </div> -->
 
              <div class="col-12 mb-3">
                 <p>
                     Account Type
-                     <span class="float-end">xxxx &nbsp;<i class="fa-solid fa-gear text-primary " data-bs-toggle="modal" data-bs-target="#myModalac"></i></span>
+                     <span class="float-end">{{client_user.group}} &nbsp;<i class="fa-solid fa-gear text-primary " data-bs-toggle="modal" data-bs-target="#myModalac"></i></span>
                 </p>
              </div>
 
@@ -221,19 +221,23 @@
         </div>
   
         <!-- Modal body -->
+        <form action="{% url 'LiveUserNameUpdate' client_user.id %}" method="post">
+          {% csrf_token %}
+
         <div class="modal-body">
           <div class="col-12">
             <label for="">Edit Trade Account Details
             </label>
+            <input type="text" name="name" value="{{client_user.user}}">
             <input type="text" class="form-control bg-white" name="account_name" value="">
           </div>
         </div>
   
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-info">Update</button>
+          <button type="submit" class="btn btn-info">Update</button>
         </div>
-  
+      </form>
       </div>
     </div>
   </div>
@@ -256,10 +260,15 @@
         </div>
   
         <!-- Modal body -->
+        <form action="{% url 'LiveGroupUpdate' client_user.id %}" method="post">
+          {% csrf_token %}
         <div class="modal-body">
           <div class="col-12">
-            <select class="form-control bg-white" name="select">  
-                <option>xxxx</option>    
+            <select class="form-control bg-white" name="account_group">  
+              <option value="standard">Standard</option> 
+              <option value="pro/micro">Pro/Micro</option>    
+              <option value="ecn">ECN</option>
+               
             </select>
 
 
@@ -268,9 +277,9 @@
   
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-info">Update</button>
+          <button type="submit" class="btn btn-info">Update</button>
         </div>
-  
+      </form>
       </div>
     </div>
   </div>

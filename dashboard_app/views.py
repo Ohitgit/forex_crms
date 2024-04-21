@@ -184,3 +184,36 @@ class DemoAccountsDetailes(View):
         client_user=LiveAccount.objects.get(id=id)
         context={'client_user':client_user}
         return render(request,self.template_name,context)
+
+
+
+
+class LiveUserNameUpdate(View):
+   
+    def post(self, request,id):
+    
+        if request.method =="POST":
+           name_id=request.POST.get('name')
+           print(name_id)
+           name=request.POST.get('account_name')
+           print('name',name)
+           client=LiveAccount.objects.get(user__username=name_id)
+           
+          
+           client.user.username=name
+           client.user.save()
+        return redirect('liveacountdetailes',id)
+
+    
+
+class LiveGroupUpdate(View):
+   
+    def post(self, request,id):
+    
+        if request.method =="POST":
+          name=request.POST.get('account_group')
+          print('name',name)
+          client=LiveAccount.objects.get(id=id)
+          client.group=name
+          print(client.save())
+        return redirect('liveacountdetailes',id)

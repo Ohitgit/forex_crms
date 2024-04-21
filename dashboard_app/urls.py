@@ -23,5 +23,7 @@ urlpatterns = [
     path('demoaccount',DemoAccount.as_view(),name="DemoAccount"),
     path('liveacountdetailes/<int:id>',LiveAccountsDetailes.as_view(),name="liveacountdetailes"),
     path('demoacountdetailes/<int:id>',DemoAccountsDetailes.as_view(),name="demoacountdetailes"),
+    path('liveusernameupdate/<int:id>',LiveUserNameUpdate.as_view(),name="LiveUserNameUpdate"),
+     path('livegroupupdate/<int:id>',LiveGroupUpdate.as_view(),name="LiveGroupUpdate"),
 
 ]
