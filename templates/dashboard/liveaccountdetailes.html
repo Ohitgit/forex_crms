@@ -299,11 +299,12 @@
           <h4 class="modal-title">Edit Trade Account Password </h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-  
+       <form action="{% url 'LivePasswordUpdate' client_user.id %}" method="post">
         <!-- Modal body -->
+        {% csrf_token %}
         <div class="modal-body">
           <div class="col-12 mb-3">
-            <select class="form-control bg-white" name="select">  
+            <select class="form-control bg-white" name="select" required>  
                 <option>Select Password Type</option>   
                 <option>Trade Password</option> 
                 <option>Investor Password</option>
@@ -314,7 +315,7 @@
 
           </div>
           <div class="col-12 mb-3">
-            <input type="password" name="password" value="" placeholder="Enter Password" class="form-control bg-white">
+            <input type="password" name="password" value="" placeholder="Enter Password" class="form-control bg-white" required>
           </div>
 
           <div class="col-12 bg-white card p-3">
@@ -331,9 +332,9 @@
   
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-info">Update</button>
+          <button type="submit" class="btn btn-info">Update</button>
         </div>
-  
+      </form>
       </div>
     </div>
   </div>

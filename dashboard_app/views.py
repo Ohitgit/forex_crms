@@ -217,3 +217,17 @@ class LiveGroupUpdate(View):
           client.group=name
           print(client.save())
         return redirect('liveacountdetailes',id)
+
+
+
+class LivePasswordUpdate(View):
+   
+    def post(self, request,id):
+    
+        if request.method =="POST":
+          select=request.POST.get('select')
+          password=request.POST.get('password')
+         
+          client=LiveAccount.objects.get(id=id)
+         
+        return redirect('liveacountdetailes',id)
