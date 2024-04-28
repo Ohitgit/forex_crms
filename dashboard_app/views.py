@@ -5,22 +5,32 @@ from django.views import View
 from .froms import *
 from client_app.models import *
 from django.contrib import messages
+import requests
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
+def forex_manager_ip():
+    forex=Forex_Manager_Credential.objects.first()
+    ip=forex.ip
+    login=forex.login
+    password=forex.password
+    return ip,login,password
 
 class Client_List(View):
     client_user=Client_Register.objects.all()
     context={'client_user':client_user}
     template_name="dashboard/client_list.html"
     def get(self, request):
-        return render(request,self.template_name,self.context)    
+        return render(request,self.template_name,self.context)  
+      
 
 
 class Client_profile(View):
-    template_name="dashboard/client_profile.html"
+    template_name="dashboard/client_profile1.html"
     def get(self, request,id):
         client_user=Client_Register.objects.get(id=id)
-        context={'client_user':client_user}
+        live_account=LiveAccount.objects.filter(user=request.user)
+        context={'client_user':client_user,'live_account':live_account}
         return render(request,self.template_name,context)
     
     def post(self, request, pk):
@@ -231,3 +241,62 @@ class LivePasswordUpdate(View):
           client=LiveAccount.objects.get(id=id)
          
         return redirect('liveacountdetailes',id)
+
+
+class  Dashboard_Deposittype(View):
+        def post(self,request):
+            if request.method == 'POST':
+              account_no=request.POST.get('account_no')
+              amount=request.POST.get('amount')
+              comment=request.POST.get('comment')
+              url = "http://103.138.189.81/api/mt4/depostLiveAccount"
+              ip,login,password=forex_manager_ip()
+              deposit_api="{\r\n    \"ip\":\""+ip+"\",\r\n    \"login\":"+str(login)+",\r\n    \"password\":\""+password+"\",\r\n    \"account_login\":"+account_no+",\r\n    \"amount\": "+str(amount)+",\r\n    \"comment\": \"Deposit\"\r\n}"
+              headers = {
+                    'Content-Type': 'application/json'
+               }
+              response = requests.request("POST", url, headers=headers, data=deposit_api)
+              print(response.text)
+              url1 = "http://103.138.189.81/api/mt4/getLiveTradeAccountDetails"
+              payload="{\r\n      \"ip\":\""+ip+"\",\r\n    \"login\":"+login+",\r\n    \"password\":\""+password+"\",\r\n    \"account_login\":"+account_no+"\r\n}"
+              headers = { 'Content-Type': 'application/json' }
+              response1 = requests.request("POST", url1, headers=headers, data=payload)
+            return redirect('Client_profile')
+
+
+
+
+#admin withdraw
+class  Dashboard_Wihdrawtype(View):
+        def post(self,request):
+            if request.method == 'POST':
+              account_no=request.POST.get('account_no')
+              amount=request.POST.get('amount')
+              comment=request.POST.get('comment')
+              url = "http://103.138.189.81/api/mt4/withdrawLiveAccount"
+              ip,login,password=forex_manager_ip()
+              payload="{\r\n    \"ip\":\""+ip+"\",\r\n    \"login\":"+str(login)+",\r\n    \"password\":\""+username+"\",\r\n    \"account_login\":"+str(account_no)+",\r\n    \"amount\": "+str(amount)+",\r\n    \"comment\": \"Withdraw\"\r\n}"
+              headers = {'Content-Type': 'application/json'}
+              url1 = "http://103.138.189.81/api/mt4/getLiveTradeAccountDetails"
+              payload1="{\r\n      \"ip\":\""+ip+"\",\r\n    \"login\":"+str(login)+",\r\n    \"password\":\""+username+"\",\r\n    \"account_login\":"+str(account_no)+"\r\n}"
+              headers = {'Content-Type': 'application/json'}
+              response1 = requests.request("POST", url1, headers=headers, data=payload1)
+              print(response1.text)
+              deposit_live=json.loads(response1.text.encode("utf-8"))
+
+
+
+
+class Client_Login(View):
+    def post(self,request):
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            print(user)
+            if user is not None:
+                 print('okk')
+                 return redirect('client_list')
+            
+            else:
+                return redirect('home')

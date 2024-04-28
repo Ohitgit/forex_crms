@@ -1,0 +1,644 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+{% block home %}
+<style>
+    .right {
+        text-align: right;
+    }
+</style>
+
+<div class="container-fluid pt-4 px-4">
+
+
+    <div class="col-sm-12 col-xl-12 mb-3">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Client Details</h6>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active text-danger" id="documents-tab" data-bs-toggle="tab"
+                        data-bs-target="#docs-tab" type="button" role="tab" aria-controls="nav-home"
+                        aria-selected="true">Documents</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                        type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                    <button class="nav-link" id="nav-credit-bonus" data-bs-toggle="tab" data-bs-target="#credit-bonus"
+                        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Credit Bonus</button>
+
+                    <button class="nav-link" id="nav-update-leverage" data-bs-toggle="tab" data-bs-target="#update_leverage"
+                        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Update
+                        Leverage</button>
+                    <button class="nav-link" id="nav-deposit-amt" data-bs-toggle="tab" data-bs-target="#deposit-amt"
+                        type="button" role="tab" aria-controls="deposit-amt" aria-selected="false">Deposit
+                        Amount</button>
+                    <!-- <button class="nav-link" id="nav-deposit-by-cash" data-bs-toggle="tab"
+                        data-bs-target="#nav-deposit-by" type="button" role="tab" aria-controls="nav-contact"
+                        aria-selected="false">Deposit By Cash</button> -->
+                    <button class="nav-link" id="nav-withdraw-amt" data-bs-toggle="tab"
+                        data-bs-target="#withdraw-amt" type="button" role="tab" aria-controls="nav-contact"
+                        aria-selected="false">WithDraw Amount</button>
+                    <button class="nav-link" id="nav-login" data-bs-toggle="tab" data-bs-target="#nav-logink"
+                        type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Login</button>
+                </div>
+            </nav>
+
+
+            <div class="tab-content pt-3" id="nav-tabContent">
+                <!-- documents section start here -->
+                <div class="tab-pane fade show active" id="docs-tab" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="bg-dark mb-3 p-5">
+                                <div class="col-12 mb-3">
+                                    <img src="static/img/usdt.png" class="img-fluid">
+                                </div>
+                                <div class="col-12 text-center mb-3">
+                                    <h4 class="text-white">{{client_user.first_name }} {{client_user.last_name}}</h4>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <h4 class="text-success"><b>Verified</b> </h4>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        {% if client_user.email_status == True %}
+                                          
+                                      
+                                        <button type="button" class="btn btn-info">Verify</button>
+                                        {%else%}
+                                        <button type="button" class="btn btn-warning">Reject</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 col-md-8">
+                            <div class="bg-dark p-2 mb-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6 class="text-capitalize text-white">
+                                            <p><b>Address</b>
+                                                <hr>
+                                            </p>
+                                        </h6>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>CITY</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.city}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>STATE</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.state}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>PINCODE</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.pincode}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>Address</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.address}}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="bg-dark p-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6 class="text-capitalize text-white">
+                                            <p><b>Address Proof Verification</b>
+                                                <hr>
+                                            </p>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4">
+                                        <a class="btn btn-success">View Document</a>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="d-lg-flex d-md-flex justify-content-between">
+                                            <div>
+                                                <p class="text-info">Agent Comment<br>
+                                                    Updated By <br>
+                                                    Updated On:
+
+                                                </p>
+
+                                            </div>
+                                            <div>
+                                                <p>xxxxx <br>
+                                                    xxxx<br>
+                                                    xxxx</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- documents section end here -->
+
+                <!--Profile  section start here -->
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+                    <div class="d-lg-flex d-md-flex justify-content-between">
+                        <!-- personal details card start here -->
+                        <div>
+                            <div class="bg-dark mb-3 p-5">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6 class="text-capitalize">
+                                            <p><b>{{client_user.first_name}} {{ client_user.last_name}}</b></p>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p><b>Reg.Date</b>&nbsp;<span>-</span>&nbsp;</span><b>{{client_user.added_on}}</b></span></p>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <p><b>Status</b>&nbsp;<span>-</span>&nbsp;</span><b> {% if client_user.mobile_status == True %}
+                                        Active
+                                        {% else %}
+                                        Inactive
+                                    {% endif %}
+                                 </b></span></p>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-1 col-md-1">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div class="col-lg-11 col-md-11">
+                                        <p>{{client_user.email}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-1 col-md-1">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div class="col-lg-11 col-md-11">
+                                        <p>{{client_user.mobile_no}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-1 col-md-1">
+                                        <i class="fa-solid fa-earth-americas"></i>
+                                    </div>
+                                    <div class="col-lg-11 col-md-11">
+                                        <p>{{client_user.country}}</p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <!-- personal details card end here -->
+
+                        <!-- Address card start here -->
+                        <div>
+                            <div class="bg-dark p-5">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6 class="text-capitalize">
+                                            <p><b>Address</b>
+                                                <hr>
+                                            </p>
+                                        </h6>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>CITY</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.city}}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>STATE</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.state}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>PINCODE</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.pincode}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>Address</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{{client_user.address}}</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- address card end here -->
+
+                        <!-- verification start here -->
+                        <div>
+                            <div class="bg-dark p-5">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6 class="text-capitalize">
+                                            <p><b>Verification</b>
+                                                <hr>
+                                            </p>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3">
+                                        <p><b>Email Verification</b></p>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9">
+                                        <p class="right"><b>{% if client_user.email_status == True %}
+                                             Yes
+                                            {% else %}
+                                             No
+                                        {% endif %}</b></p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>Mobile No Verification</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">{% if client_user.mobile_no == True %}
+                                            Yes
+                                           {% else %}
+                                            No
+                                       {% endif %}</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>ID Proof Verification</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">XXXX</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <p>Address Proof Verification</p>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <p class="right">XXXX</p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <!-- verification end here -->
+                    </div>
+
+
+                    <div class="container-fluid pt-4 px-4">
+                        <div class="d-lg-flex d-md-flex justify-content-between">
+                            <!-- trade account design start here -->
+                            <div>
+                                <div class="bg-dark mx-0 p-3">
+                                    <h6>Trade Accounts
+                                        <hr>
+                                    </h6>
+
+                                    <div class="form-group mb-3">
+                                        <div class="label">Demo Account</div>
+                                        <input type="number" class="form-control" value="4" name="demo_accounts">
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <div class="label">Live Account</div>
+                                        <input type="number" class="form-control" value="4" name="live_accounts">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary btn-block w-100" value="Submit">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- trade account design end here -->
+
+                            <!-- Id proof upload design start here -->
+                            <div>
+                                <div class="bg-dark mx-0 p-3">
+                                    <h6>ID Proof Upload
+                                        <hr>
+                                    </h6>
+
+                                    <div class="form-group mb-3">
+                                        <select class="form-control" name="document_type">
+                                            <option>Select Documet Type</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <input type="file" class="form-control" name="id_proof" id="id_proof">
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <input type="submit" class="btn btn-primary mt-3 btn-block w-100"
+                                            value="Submit">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Id proof upload design end here -->
+
+                            <!-- Address proof upload design start here -->
+
+                            <div class="bg-dark mx-0 p-3">
+                                <h6>Address Proof Upload
+
+                                    <hr>
+                                </h6>
+
+                                <div class="form-group mb-3">
+                                    <select class="form-control" name="document_type">
+                                        <option>Select Documet Type</option>
+                                    </select>
+
+                                </div>
+                                <div class="form-group mb-4">
+                                    <input type="file" class="form-control" name="address_proof" id="id_proof">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary btn-block w-100" value="Submit">
+                                </div>
+
+                            </div>
+
+                            <!-- Address proof upload design end here -->
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!--Profile  section end here -->
+
+                <!-- credit bonus start here -->
+                <div class="tab-pane fade" id="credit-bonus" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="card bg-dark p-3">
+                                <div class="col-lg-12">
+                                    <h6>Credit Deposit Type
+                                    </h6>
+                                </div>
+                                <form action="{% url 'Dashboard_Deposittype' %}" method="post">
+                                     {% csrf_token %}
+                                    <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Select Account No</label>
+                                        
+                                        <select class="form-control" name="account_no">
+                                            {% for x in live_account %}
+                                              
+                                            
+                                            <option value="{{x.login}}">{{x.login}} (USD)</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Amount</label>
+                                        <input type="number" step="any" name="amount" class="form-control bg-white"  required/>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Comment</label>
+                                        <select class="form-control" name="comment">
+                                            <option>Credit In</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <input type="submit" value="Credit In" class="btn btn-success btn-block w-100">
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="card bg-dark p-3">
+                                <div class="col-lg-12">
+                                    <h6>Credit WithDraw
+                                    </h6>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Select Account No</label>
+                                        <select class="form-control" name="select_account_no">
+                                            <option>xxxx</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Amount</label>
+                                        <input type="number" step="any" name="amount" class="form-control bg-white"  required/>
+                                    </div>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <div class="form-group">
+                                        <label>Comment</label>
+                                        <select class="form-control" name="comment">
+                                            <option>xxxx</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <input type="submit" value="Credit Out" class="btn btn-success btn-block w-100">
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+                <!-- credit bonus end here -->
+
+                <!-- update leverage start here -->
+                <div class="tab-pane fade" id="update_leverage" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card bg-dark p-3">
+                            <div class="col-lg-12">
+                                <h6>Update Leverage
+                                </h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Select Account No</label>
+                                    <select class="form-control" name="select_account_no">
+                                        <option>xxxx</option>
+                                    </select>
+                                </div>
+                            </div>
+                          
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Select Leverage</label>
+                                    <select class="form-control" name="select_leverage">
+                                        <option>xxxx</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input type="submit" value="Submit" class="btn btn-success btn-block w-100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- update leverage end here -->
+                <!-- deposit amt start here -->
+
+                <div class="tab-pane fade" id="deposit-amt" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card bg-dark p-3">
+                            <div class="col-lg-12">
+                                <h6>Deposit Amount
+                                </h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Select Account No</label>
+                                    <select class="form-control" name="select_account_no">
+                                        <option>xxxx</option>
+                                    </select>
+                                </div>
+                            </div>
+                          
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Amount</label>
+                                    <input type="number" class="form-control bg-white" name="amount">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input type="submit" value="Submit" class="btn btn-success btn-block w-100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                <!-- deposit amt end here -->
+
+                <!-- withdraw amt start here -->
+
+                <div class="tab-pane fade" id="withdraw-amt" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card bg-dark p-3">
+                            <div class="col-lg-12">
+                                <h6>WithDraw Amount
+                                </h6>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Select Account No</label>
+                                    <select class="form-control" name="select_account_no">
+                                        <option>xxxx</option>
+                                    </select>
+                                </div>
+                            </div>
+                          
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Amount</label>
+                                    <input type="number" class="form-control bg-white" name="amount">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input type="submit" value="Submit" class="btn btn-success btn-block w-100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                <!-- withdraw amt end here -->
+
+                <div class="tab-pane fade" id="nav-logink" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="card bg-dark p-3">
+                            <div class="col-lg-12">
+                                <h6>Client Login
+                                </h6>
+                            </div>
+                            <form action="{% url 'client_logins' %}" method="post">
+                                {% csrf_token %}
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Username {{clients}}</label>
+                                    <input type="text"  value="{{client_user.user.username}}" class="form-control bg-white" name="username">
+                                </div>
+                            </div>
+                          
+                            <div class="col-12 mb-3">
+                                <div class="form-group">
+                                    <label>Password </label>
+                                    <input type="password" value="{{client_user.password}}" class="form-control bg-white" name="password">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input type="submit" value="Login" class="btn btn-success btn-block w-100">
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}

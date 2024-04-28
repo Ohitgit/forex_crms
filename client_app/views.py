@@ -168,7 +168,7 @@ class Client_profile(View):
 
 
 class Open_live_account(View):
-    print('yes---------')
+
     forex_group=Forex_Group.objects.all()
     leverage= Add_Leverage.objects.all()
     demo=LiveAccount.objects.filter(group="pro/micro")
@@ -339,7 +339,7 @@ import uuid
 class Forgot(View):
     template_name="client/forgot.html"
     form=ForgotForm()
-    print('form',form)
+  
     context={'form':form}
     def get(self, request):
       return render(request,self.template_name,self.context)
@@ -439,7 +439,7 @@ class withdraw(View):
             beneficiary_name=request.POST.get('beneficiary_name')
             ifsc_code=request.POST.get('ifsc_code')
             account_number=request.POST.get('account_number')
-        if int(user_wallets.user_wallet) >= int(amount):
+        if int(user_wallets.user_wallet) >= int(amount) and int(amount) > 0:
             
             user_wallets1.user_wallet=float(user_wallets.user_wallet)-float(amount)
             user_wallets1.save()
