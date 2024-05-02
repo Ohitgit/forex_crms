@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone 
+from dashboard_app.models import *
 # Create your models here.
 class BaseModel(models.Model):
     added_on = models.DateTimeField(default=timezone.now,db_index=True)
@@ -26,7 +27,7 @@ class Client_Register(BaseModel):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE,db_index=True)
     first_name=models.CharField(null=True,blank=True,db_index=True,max_length=200)
-    
+    leverage = models.ForeignKey(Add_Leverage, on_delete=models.CASCADE,null=True,db_index=True)
     last_name=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     email=models.CharField(null=True,blank=True,db_index=True,max_length=200)
     email_status=models.BooleanField(default=False)

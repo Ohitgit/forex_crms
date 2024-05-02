@@ -7,7 +7,7 @@ from .views import *
 urlpatterns = [
     
     path('all-client',Client_List.as_view() ,name="client_list"),
-    # path('client-profile/<int:id>',Client_profile1.as_view() ,name="Client_profile"),
+   
     path('client-profile/<int:id>',Client_profile.as_view() ,name="client_profile"),
     path('client_delete/<int:id>',Client_Delete.as_view(),name="client_delete"),
     path('client_update/<int:id>',ClientUpadteDoucment.as_view(),name="client_update"),
@@ -29,4 +29,5 @@ urlpatterns = [
     path('livepasswordupdate/<int:id>',LivePasswordUpdate.as_view(),name="LivePasswordUpdate"),
     path('dashboard-deposit',Dashboard_Deposittype.as_view(),name="Dashboard_Deposittype"),
     path('client_logins',Client_Login.as_view() ,name="client_logins"),
+     path('update-leverage/<int:id>',Update_Leverage.as_view() ,name="Update_Leverage"),
 ]

@@ -513,11 +513,17 @@
                                 <h6>Update Leverage
                                 </h6>
                             </div>
-                            <div class="col-12 mb-3">
+                            <form action="{% url 'Update_Leverage' client_user.id %}" method="post">
+                                 {% csrf_token %}
+                                <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label>Select Account No</label>
-                                    <select class="form-control" name="select_account_no">
-                                        <option>xxxx</option>
+                                    <select class="form-control" name="account_no">
+                                        {% for x in live_account %}
+                                          
+                                       
+                                        <option>{{x.login}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -525,14 +531,21 @@
                             <div class="col-12 mb-3">
                                 <div class="form-group">
                                     <label>Select Leverage</label>
-                                    <select class="form-control" name="select_leverage">
-                                        <option>xxxx</option>
+                                    <select class="form-control" name="leverage">
+                                        {% for x in add_leverage %}
+                                          
+                                        
+                                        <option value="{{x.add_leverage_value}}">{{x.add_leverage_value}}</option>
+                                        {% endfor %}
+                                        
                                     </select>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <input type="submit" value="Submit" class="btn btn-success btn-block w-100">
                             </div>
+
+                        </form>
                         </div>
                     </div>
                 </div>

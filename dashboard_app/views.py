@@ -29,8 +29,9 @@ class Client_profile(View):
     template_name="dashboard/client_profile1.html"
     def get(self, request,id):
         client_user=Client_Register.objects.get(id=id)
-        live_account=LiveAccount.objects.filter(user=request.user)
-        context={'client_user':client_user,'live_account':live_account}
+        live_account=LiveAccount.objects.filter(user=client_user.user)
+        add_leverage=Add_Leverage.objects.all()
+        context={'client_user':client_user,'live_account':live_account,'add_leverage':add_leverage}
         return render(request,self.template_name,context)
     
     def post(self, request, pk):
@@ -300,3 +301,33 @@ class Client_Login(View):
             
             else:
                 return redirect('home')
+
+
+
+
+
+class Update_Leverage(View):   
+    def post(self,request,id):
+       obj1=Client_Register.objects.get(id=id)
+       if request.method == 'POST':
+            mt5_login=request.POST.get('account_no')
+            leverage=request.POST.get('leverage')
+            
+            print('------leverag kkk e-----',leverage)
+            url = "http://103.138.189.81/api/mt4/updateLiveAccountLeverage"
+            ip,login,password=forex_manager_ip()
+            payload="{\r\n   \"ip\":\""+ip+"\",\r\n    \"login\":"+str(login)+",\r\n    \"password\":\""+password+"\",\r\n    \"account_login\":"+mt5_login+",\r\n    \"leverage\":\" "+str(leverage)+"\"\r\n}"
+            # payload="{\r\n    \"ip\":\""+ip+"\",\r\n    \"login\":"+str(login)+",\r\n    \"password\":\""+username+"\",\r\n    \"account_login\":"+mt5_login+",\r\n    \"leverage\": "+str(leverage)+"\r\n}"
+            headers = {
+              'Content-Type': 'application/json'
+            }
+
+            response = requests.request("POST", url, headers=headers, data=payload)
+
+            print(response.text)
+            lev=Add_Leverage.objects.get(add_leverage_value=leverage)
+            
+            obj1.leverage_id=lev.id
+            obj1.save()
+            messages.success(request,'update leverage successful')
+            return redirect('client_profile',id)

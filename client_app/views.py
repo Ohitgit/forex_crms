@@ -29,10 +29,12 @@ def forex_manager_ip():
     return ip,login,password
 
 def home(request):
-    wallet_amount=Client_Register.objects.get(user=request.user)
-    context={'wallet_amount':wallet_amount}
-    return render(request,'clientapp/home.html',context)
-
+    if request.user.is_authenticated:
+      wallet_amount=Client_Register.objects.get(user=request.user)
+      context={'wallet_amount':wallet_amount}
+      return render(request,'clientapp/home.html',context)
+    else:
+        return redirect('client_login')
 
 class Client_register(View):
     country=Country.objects.all()
@@ -443,7 +445,7 @@ class withdraw(View):
             
             user_wallets1.user_wallet=float(user_wallets.user_wallet)-float(amount)
             user_wallets1.save()
-            Withdraw.objects.create(trade_account_number=trade_account_number,amount=amount,beneficiary_name=beneficiary_name,ifsc_code=ifsc_code,account_number=account_number,deposit_choice="bank")
+            Withdraw.objects.create(user=request.user,trade_account_number=trade_account_number,amount=amount,beneficiary_name=beneficiary_name,ifsc_code=ifsc_code,account_number=account_number,deposit_choice="bank")
             messages.success(request, 'withdraw submit successfully ..')
         else:
             messages.success(request, 'insfufision balance ..')
@@ -532,14 +534,41 @@ class internal_transfer_report(View):
 class deposit_report(View):
     template_name="clientapp/deposit_report.html"
     def get(self, request):
-        deposit=UserDeposits.objects.all()
+        deposit=UserDeposits.objects.filter(user=request.user)
         context={'deposit':deposit}
         return render(request,self.template_name,context) 
+    
+    def post(self,request):
+        
+        
+        
+        if request.method == 'POST':
+            from_date=request.POST.get('from_date')
+            to_date=request.POST.get('to_date')
+            tr_id=request.POST.get('tr_id')
+            deposit_in=request.POST.get('deposit_in')
+            deposit=UserDeposits.objects.filter(added_on__range=(from_date, to_date),transaction_ID=tr_id,deposit_from=deposit_in)
+            context={'deposit':deposit}
+        return render(request,self.template_name,context)
 
 class withdraw_report(View):
-   
+    template_name="clientapp/withdraw_report.html"
     def get(self, request):
-        return render(request,self.template_name)     
+        withdraw=Withdraw.objects.filter(user=request.user)
+        context={'withdraw':withdraw}
+        return render(request,self.template_name,context)   
+    def post(self,request):
+        
+        
+        
+        if request.method == 'POST':
+            from_date=request.POST.get('from_date')
+            to_date=request.POST.get('to_date')
+            tr_id=request.POST.get('tr_id')
+            deposit_in=request.POST.get('deposit_in')
+            withdraw=Withdraw.objects.filter(added_on__range=(from_date, to_date))
+            context={'withdraw':withdraw}
+        return render(request,self.template_name,context) 
 
 
 

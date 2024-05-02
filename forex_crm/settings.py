@@ -52,8 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'client_app.authicationmiddlware.AuthenticationMiddleware',
 ]
-
+LOGIN_URL = '/client-login'
 ROOT_URLCONF = 'forex_crm.urls'
 
 TEMPLATES = [
