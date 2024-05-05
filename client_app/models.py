@@ -77,6 +77,7 @@ class UploadDocument(BaseModel):
     identitytype=models.CharField(null=True,blank=True,db_index=True,max_length=100)
     img=models.FileField(blank=True,null=True,db_index=True,upload_to='img/')
     img2=models.FileField(blank=True,null=True,db_index=True,upload_to='img2/')
+    status=models.BooleanField(default=False)
     datetime=models.DateTimeField(null=True,default=timezone.now)
 
     

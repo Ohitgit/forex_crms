@@ -11,6 +11,9 @@ import json
 import requests
 import uuid
 from .forms import *
+from django.utils.decorators import method_decorator
+
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
@@ -35,6 +38,7 @@ def home(request):
       return render(request,'clientapp/home.html',context)
     else:
         return redirect('client_login')
+    
 
 class Client_register(View):
     country=Country.objects.all()
@@ -551,6 +555,7 @@ class deposit_report(View):
             context={'deposit':deposit}
         return render(request,self.template_name,context)
 
+@method_decorator(permission_required('client_app.view_withdraw'), name='dispatch')
 class withdraw_report(View):
     template_name="clientapp/withdraw_report.html"
     def get(self, request):

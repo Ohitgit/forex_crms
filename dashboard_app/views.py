@@ -30,8 +30,10 @@ class Client_profile(View):
     def get(self, request,id):
         client_user=Client_Register.objects.get(id=id)
         live_account=LiveAccount.objects.filter(user=client_user.user)
+         
+        profile=UploadDocument.objects.get(user=client_user.user)
         add_leverage=Add_Leverage.objects.all()
-        context={'client_user':client_user,'live_account':live_account,'add_leverage':add_leverage}
+        context={'client_user':client_user,'live_account':live_account,'add_leverage':add_leverage,'profile':profile}
         return render(request,self.template_name,context)
     
     def post(self, request, pk):
@@ -66,6 +68,13 @@ class ClientUpadteDoucment(View):
             profile.documenttype=request.POST.get('document_type')  
                  
             profile.img=request.FILES.get('img') 
+            
+            print('profile1-----------------------------------')
+            if profile.status==False:
+                profile.status=True
+            else:
+                 profile.status=False
+            profile.save()
            
             profile.save()
             messages.success(request, 'Doucment Upload Updated..')
@@ -85,10 +94,9 @@ class ClientUpadteDoucment2(View):
                  
             profile.img=request.FILES.get('img') 
            
-            profile.save()
             
             messages.success(request, 'Doucment Upload Updated..')
-            return redirect('client_profile',id )
+            # return redirect('client_profile',id )
 
 
 
@@ -331,3 +339,5 @@ class Update_Leverage(View):
             obj1.save()
             messages.success(request,'update leverage successful')
             return redirect('client_profile',id)
+       
+
