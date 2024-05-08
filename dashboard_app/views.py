@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic import DeleteView
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.views import View
 from .froms import *
 from client_app.models import *
@@ -9,6 +9,13 @@ import requests
 from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
+
+
+class Home(View):
+    template_name="dashboard/home.html"
+    def get(self, request):
+        return render(request,self.template_name) 
+    
 def forex_manager_ip():
     forex=Forex_Manager_Credential.objects.first()
     ip=forex.ip
@@ -341,3 +348,17 @@ class Update_Leverage(View):
             return redirect('client_profile',id)
        
 
+def User_Register(request):
+    client=Client_Register.objects.all().count()
+    return JsonResponse({'client':client})
+
+
+
+def Client_Withdraw(request):
+    client=Withdraw.objects.all().count()
+    return JsonResponse({'client':client})
+
+
+def Client_Deposit(request):
+    client=UserDeposits.objects.all().count()
+    return JsonResponse({'client':client})

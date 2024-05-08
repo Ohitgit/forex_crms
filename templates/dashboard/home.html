@@ -259,7 +259,77 @@
                 </div>
             </div>
             <!-- Widgets End -->
+            <script>
 
+                function loadDoc1() {
+                                 //alert('okk')
+                                 setInterval(function(){
+                                 $.ajax({
+                                   type: 'GET',
+                                   url: '{% url 'User_Register' %}',  // Replace with your actual URL
+                                   
+                                   success: function (response) {
+                                    //    alert(response.client)
+                                       document.getElementById("noti_number1").innerHTML = "You have " + response.client + " Registration "
+                                       
+                                     
+                                       
+                                   }
+                               });
+                             },1000);
+             
+             
+                             }
+                             loadDoc1();
+
+
+
+                             function loadDoc2() {
+                                 //alert('okk')
+                                 setInterval(function(){
+                                 $.ajax({
+                                   type: 'GET',
+                                   url: '{% url 'client_withdraw' %}',  // Replace with your actual URL
+                                   
+                                   success: function (response) {
+                                    //    alert(response.client)
+                                       document.getElementById("client-withdraw").innerHTML = "You have " + response.client + " withdraw "
+                                       
+                                     
+                                       
+                                   }
+                               });
+                             },1000);
+             
+             
+                             }
+                             loadDoc2();
+
+
+
+
+                             function loadDoc3() {
+                                 //alert('okk')
+                                 setInterval(function(){
+                                 $.ajax({
+                                   type: 'GET',
+                                   url: '{% url 'client_deposit' %}',  // Replace with your actual URL
+                                   
+                                   success: function (response) {
+                                    //    alert(response.client)
+                                       document.getElementById("client-deposit").innerHTML = "You have " + response.client + " withdraw "
+                                       
+                                     
+                                       
+                                   }
+                               });
+                             },1000);
+             
+             
+                             }
+                             loadDoc3();
+             
+               </script>
 
 
 {% endblock %}

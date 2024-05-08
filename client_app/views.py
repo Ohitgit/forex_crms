@@ -34,7 +34,11 @@ def forex_manager_ip():
 def home(request):
     if request.user.is_authenticated:
       wallet_amount=Client_Register.objects.get(user=request.user)
-      context={'wallet_amount':wallet_amount}
+      live=LiveAccount.objects.filter(group_name="liveaccount").count()
+      demo=LiveAccount.objects.filter(group_name
+                                      ="demoaccount").count()
+      withdraw=Withdraw.objects.filter(user=request.user).count()
+      context={'wallet_amount':wallet_amount,'live':live,'demo':demo,'withdraw':withdraw}
       return render(request,'clientapp/home.html',context)
     else:
         return redirect('client_login')
@@ -214,9 +218,11 @@ class Open_live_account(View):
           response_api = requests.post(url, headers=headers,json=data)
           response_data= response_api.json()
           print('json1',response_data)
-          if response_data['status'] == True:
+         
+          if response_data['status'] == True  and  int(user.live_account_limit) > 0:
             LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'],group_name="liveaccount")
-           
+            user.live_account_limit -=1
+            user.save()
             return redirect('open_live_account')
             # return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
           else:
@@ -263,8 +269,9 @@ class Open_demo_account(View):
           response_api = requests.post(url, headers=headers,json=data)
           response_data= response_api.json()
           print('json1',response_data)
-          if response_data['status'] == True:
-            
+          if response_data['status'] == True and  int(user.demo_account_limit) > 0:
+            user.demo_account_limit -=1
+            user.save()
             LiveAccount.objects.create(group=data['group'],login=response_data.get('login'),email=data['email'],password=data['password'],user=request.user,leverage=data['leverage'],group_name="demoaccount")
             return redirect('open_demo_account')
             # return JsonResponse({'message': 'LiveAccount created successfully'}, status=200)
